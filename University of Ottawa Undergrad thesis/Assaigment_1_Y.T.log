@@ -1,0 +1,2079 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\eugen\Desktop\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\Assaigment_1_Y.T.log
+  log type:  text
+ opened on:   9 Nov 2021, 00:07:56
+
+. //Requires wifi to install this
+. ssc install outreg2 
+checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install fitstat
+checking fitstat consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install psmatch2
+checking psmatch2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install ivreg2
+checking ivreg2 consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. ssc install kmatch
+checking kmatch consistency and verifying not already installed...
+all files already exist and are up to date.
+
+. //ssc install moremata
+. // Project , Yevgeniy Trostin #8321498, Stata 13 Software
+. global direc "D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile" // Directory path 
+
+. import delimited "D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\2010_2013.csv"
+(60 vars, 8,984 obs)
+
+. 
+. // code provided by data
+. label define vlr0000100 0 "0"  1 "1 TO 999"  1000 "1000 TO 1999"  2000 "2000 TO 2999"  3000 "3000 TO 3999"  4000 "4000 TO 4999"  5000 "5000 TO 5999"  
+> 6000 "6000 TO 6999"  7000 "7000 TO 7999"  8000 "8000 TO 8999"  9000 "9000 TO 9999" 
+
+. label values r0000100 vlr0000100
+
+. 
+. label define vlr0536300 1 "Male"  2 "Female"  0 "No Information" 
+
+. label values r0536300 vlr0536300
+
+. 
+. label define vlr0536401 1 "1: January"  2 "2: February"  3 "3: March"  4 "4: April"  5 "5: May"  6 "6: June"  7 "7: July"  8 "8: August"  9 "9: Septem
+> ber"  10 "10: October"  11 "11: November"  12 "12: December" 
+
+. label values r0536401 vlr0536401
+
+. 
+. label define vlr1204500 -999999 "-999999 TO -3000: < -2999"  -2999 "-2999 TO -2000"  -1999 "-1999 TO -1000"  -999 "-999 TO -1"  0 "0"  1 "1 TO 1000"  
+> 1001 "1001 TO 2000"  2001 "2001 TO 3000"  3001 "3001 TO 5000"  5001 "5001 TO 10000"  10001 "10001 TO 20000"  20001 "20001 TO 30000"  30001 "30001 TO 4
+> 0000"  40001 "40001 TO 50000"  50001 "50001 TO 65000"  65001 "65001 TO 80000"  80001 "80001 TO 100000"  100001 "100001 TO 150000"  150001 "150001 TO 2
+> 00000"  200001 "200001 TO 999999: 200001+" 
+
+. label values r1204500 vlr1204500
+
+. 
+. label define vlr1235800 1 "Cross-sectional"  0 "Oversample" 
+
+. label values r1235800 vlr1235800
+
+. 
+. label define vlr1482600 1 "Black"  2 "Hispanic"  3 "Mixed Race (Non-Hispanic)"  4 "Non-Black / Non-Hispanic" 
+
+. label values r1482600 vlr1482600
+
+. 
+. label define vlt5201400 25 "25"  26 "26"  27 "27"  28 "28"  29 "29"  30 "30"  31 "31" 
+
+. label values t5201400 vlt5201400
+
+. 
+. label define vlt5202300 1 "Northeast (CT, ME, MA, NH, NJ, NY, PA, RI, VT)"  2 "North Central (IL, IN, IA, KS, MI, MN, MO, NE, OH, ND, SD, WI)"  3 "Sou
+> th (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN , TX, VA, WV)"  4 "West (AK, AZ, CA, CO, HI, ID, MT, NV, NM, OR, UT, WA, WY)" 
+
+. label values t5202300 vlt5202300
+
+. 
+. label define vlt5207400 0 "None"  1 "GED"  2 "High school diploma (Regular 12 year program)"  3 "Associate/Junior college (AA)"  4 "Bachelor's degree 
+> (BA, BS)"  5 "Master's degree (MA, MS)"  6 "PhD"  7 "Professional degree (DDS, JD, MD)" 
+
+. label values t5207400 vlt5207400
+
+. 
+. label define vlt5211900 0 "Rural"  1 "Urban"  2 "Unknown" 
+
+. label values t5211900 vlt5211900
+
+. 
+. label define vlt5213200 0 "0"  30000 "30000 TO 59999: 300.00-599.99"  60000 "60000 TO 99999: 600.00-999.99"  100000 "100000 TO 149999: 1000.00-1499.99
+> "  150000 "150000 TO 199999: 1500.00-1999.99"  200000 "200000 TO 249999: 2000.00-2499.99"  250000 "250000 TO 299999: 2500.00-2999.99"  300000 "300000 
+> TO 349999: 3000.00-3499.99"  350000 "350000 TO 399999: 3500.00-3999.99"  400000 "400000 TO 449999: 4000.00-4499.99"  450000 "450000 TO 499999: 4500.00
+> -4999.99"  500000 "500000 TO 549999: 5000.00-5499.99"  550000 "550000 TO 599999: 5500.00-5999.99"  600000 "600000 TO 649999: 6000.00-6499.99"  650000 
+> "650000 TO 699999: 6500.00-6999.99"  700000 "700000 TO 749999: 7000.00-7499.99"  750000 "750000 TO 799999: 7500.00-7999.99"  800000 "800000 TO 849999:
+>  8000.00-8499.99"  850000 "850000 TO 9999999: 8500.00+" 
+
+. label values t5213200 vlt5213200
+
+. 
+. label define vlt6055500 0 "0"  1 "1 TO 999"  1000 "1000 TO 1999"  2000 "2000 TO 2999"  3000 "3000 TO 3999"  4000 "4000 TO 4999"  5000 "5000 TO 5999"  
+> 6000 "6000 TO 6999"  7000 "7000 TO 7999"  8000 "8000 TO 8999"  9000 "9000 TO 9999"  10000 "10000 TO 14999"  15000 "15000 TO 19999"  20000 "20000 TO 24
+> 999"  25000 "25000 TO 49999"  50000 "50000 TO 99999999: 50000+" 
+
+. label values t6055500 vlt6055500
+
+. 
+. label define vlt6141700 0 "0"  1 "1"  2 "2"  3 "3"  4 "4"  5 "5"  6 "6"  7 "7" 
+
+. label values t6141700 vlt6141700
+
+. 
+. label define vlt6141800 0 "0"  1 "1"  2 "2"  3 "3"  4 "4"  5 "5"  6 "6"  7 "7"  8 "8"  9 "9"  10 "10"  11 "11"  12 "12" 
+
+. label values t6141800 vlt6141800
+
+. 
+. label define vlt6145800 1 "VERY UNDERWEIGHT"  2 "SLIGHTLY UNDERWEIGHT"  3 "ABOUT THE RIGHT WEIGHT"  4 "SLIGHTLY OVERWEIGHT"  5 "VERY OVERWEIGHT" 
+
+. label values t6145800 vlt6145800
+
+. 
+. label define vlt6206400 1 "Excellent"  2 "Very good"  3 "Good"  4 "Fair"  5 "Poor" 
+
+. label values t6206400 vlt6206400
+
+. 
+. label define vlt6210200 1 "YES"  0 "NO" 
+
+. label values t6210200 vlt6210200
+
+. 
+. label define vlt6216400 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216400 vlt6216400
+
+. 
+. label define vlt6216401 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216401 vlt6216401
+
+. 
+. label define vlt6216402 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216402 vlt6216402
+
+. 
+. label define vlt6216403 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216403 vlt6216403
+
+. 
+. label define vlt6216500 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216500 vlt6216500
+
+. 
+. label define vlt6216501 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216501 vlt6216501
+
+. 
+. label define vlt6216502 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216502 vlt6216502
+
+. 
+. label define vlt6216503 1 "1 -- Disagree strongly"  2 "2 -- Disagree moderately"  3 "3 -- Disagree a little"  4 "4 -- Neither agree nor disagree"  5 "
+> 5 -- Agree a little"  6 "6 -- Agree moderately"  7 "7 -- Agree strongly" 
+
+. label values t6216503 vlt6216503
+
+. 
+. label define vlt6231000 10 "10 TO 430: EXECUTIVE, ADMINISTRATIVE AND MANAGERIAL"  500 "500 TO 950: MANAGEMENT RELATED"  1000 "1000 TO 1240: MATHEMATIC
+> AL AND COMPUTER SCIENTISTS"  1300 "1300 TO 1530: ENGINEERS, ARCHITECTS, AND SURVEYORS"  1540 "1540 TO 1560: ENGINEERING AND RELATED TECHNICIANS"  1600
+>  "1600 TO 1760: PHYSICAL SCIENTISTS"  1800 "1800 TO 1860: SOCIAL SCIENTISTS AND RELATED WORKERS"  1900 "1900 TO 1960: LIFE, PHYSICAL, AND SOCIAL SCIEN
+> CE TECHNICIANS"  2000 "2000 TO 2060: COUNSELORS, SOCIAL, AND RELIGIOUS WORKERS"  2100 "2100 TO 2150: LAWYERS, JUDGES, AND LEGAL SUPPORT WORKERS"  2200
+>  "2200 TO 2340: TEACHERS"  2400 "2400 TO 2550: EDUCATION, TRAINING, AND LIBRARY WORKERS"  2600 "2600 TO 2760: ENTERTAINERS AND PERFORMERS, SPORTS AND 
+> RELATED WORKERS"  2800 "2800 TO 2960: MEDIA AND COMMUNICATION WORKERS"  3000 "3000 TO 3260: HEALTH DIAGNOSIS AND TREATING PRACTITIONERS"  3300 "3300 T
+> O 3650: HEALTH CARE TECHNICAL AND SUPPORT"  3700 "3700 TO 3950: PROTECTIVE SERVICE"  4000 "4000 TO 4160: FOOD PREPARATIONS AND SERVING RELATED"  4200 
+> "4200 TO 4250: CLEANING AND BUILDING SERVICE"  4300 "4300 TO 4430: ENTERTAINMENT ATTENDANTS AND RELATED WORKERS"  4460 "4460: FUNERAL RELATED OCCUPATI
+> ONS"  4500 "4500 TO 4650: PERSONAL CARE AND SERVICE WORKERS"  4700 "4700 TO 4960: SALES AND RELATED WORKERS"  5000 "5000 TO 5930: OFFICE AND ADMINISTR
+> ATIVE SUPPORT WORKERS"  6000 "6000 TO 6130: FARMING, FISHING, AND FORESTRY"  6200 "6200 TO 6940: CONSTRUCTION TRADES AND EXTRACTION WORKERS"  7000 "70
+> 00 TO 7620: INSTALLATION, MAINTENANCE, AND REPAIR WORKERS"  7700 "7700 TO 7750: PRODUCTION AND OPERATING WORKERS"  7800 "7800 TO 7850: FOOD PREPARATIO
+> N"  7900 "7900 TO 8960: SETTER, OPERATORS, AND TENDERS"  9000 "9000 TO 9750: TRANSPORTATION AND MATERIAL MOVING WORKERS"  9800 "9800 TO 9840: MILITARY
+>  SPECIFIC OCCUPATIONS"  9950 "9950 TO 9990: ACS SPECIAL CODES" 
+
+. label values t6231000 vlt6231000
+
+. 
+. label define vlt8123600 28 "28"  29 "29"  30 "30"  31 "31"  32 "32"  33 "33"  34 "34" 
+
+. label values t8123600 vlt8123600
+
+. 
+. label define vlt8123700 1 "Northeast (CT, ME, MA, NH, NJ, NY, PA, RI, VT)"  2 "North Central (IL, IN, IA, KS, MI, MN, MO, NE, OH, ND, SD, WI)"  3 "Sou
+> th (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN , TX, VA, WV)"  4 "West (AK, AZ, CA, CO, HI, ID, MT, NV, NM, OR, UT, WA, WY)" 
+
+. label values t8123700 vlt8123700
+
+. 
+. label define vlt8129600 0 "None"  1 "GED"  2 "High school diploma (Regular 12 year program)"  3 "Associate/Junior college (AA)"  4 "Bachelor's degree 
+> (BA, BS)"  5 "Master's degree (MA, MS)"  6 "PhD"  7 "Professional degree (DDS, JD, MD)" 
+
+. label values t8129600 vlt8129600
+
+. 
+. label define vlt8134500 0 "Rural"  1 "Urban"  2 "Unknown" 
+
+. label values t8134500 vlt8134500
+
+. 
+. label define vlt8976700 0 "0"  1 "1 TO 999"  1000 "1000 TO 1999"  2000 "2000 TO 2999"  3000 "3000 TO 3999"  4000 "4000 TO 4999"  5000 "5000 TO 5999"  
+> 6000 "6000 TO 6999"  7000 "7000 TO 7999"  8000 "8000 TO 8999"  9000 "9000 TO 9999"  10000 "10000 TO 14999"  15000 "15000 TO 19999"  20000 "20000 TO 24
+> 999"  25000 "25000 TO 49999"  50000 "50000 TO 99999999: 50000+" 
+
+. label values t8976700 vlt8976700
+
+. 
+. label define vlt9039300 0 "0"  1 "1 TO 24"  25 "25 TO 49"  50 "50 TO 74"  75 "75 TO 99"  100 "100 TO 124"  125 "125 TO 149"  150 "150 TO 174"  175 "17
+> 5 TO 199"  200 "200 TO 224"  225 "225 TO 249"  250 "250 TO 99999999: 250+" 
+
+. label values t9039300 vlt9039300
+
+. 
+. label define vlt9039400 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9039400 vlt9039400
+
+. 
+. label define vlt9039500 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9039500 vlt9039500
+
+. 
+. label define vlt9039600 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9039600 vlt9039600
+
+. 
+. label define vlt9039700 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9039700 vlt9039700
+
+. 
+. label define vlt9039800 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9039800 vlt9039800
+
+. 
+. label define vlt9039900 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9039900 vlt9039900
+
+. 
+. label define vlt9040000 1 "Very much like me"  2 "Mostly like me"  3 "Somewhat like me"  4 "Not much like me"  5 "Not like me at all" 
+
+. label values t9040000 vlt9040000
+
+. 
+. label define vlt9093100 1 "Excellent"  2 "Very good"  3 "Good"  4 "Fair"  5 "Poor" 
+
+. label values t9093100 vlt9093100
+
+. 
+. label define vlt9093300 1 "YES"  0 "NO" 
+
+. label values t9093300 vlt9093300
+
+. 
+. label define vlt5915200 0 "Never-married"  1 "Married"  2 "Separated"  3 "Divorced"  4 "Widowed" 
+
+. label values t5915200 vlt5915200
+
+. 
+. label define vlt5206800 0 "None"  1 "1st Grade"  2 "2nd Grade"  3 "3rd Grade"  4 "4th Grade"  5 "5th Grade"  6 "6th Grade"  7 "7th Grade"  8 "8th Grad
+> e"  9 "9th Grade"  10 "10th Grade"  11 "11th Grade"  12 "12th Grade"  95 "Ungraded" 
+
+. label values t5206800 vlt5206800
+
+. 
+. label define vlt8128900 0 "NONE"  1 "1ST GRADE"  2 "2ND GRADE"  3 "3RD GRADE"  4 "4TH GRADE"  5 "5TH GRADE"  6 "6TH GRADE"  7 "7TH GRADE"  8 "8TH GRAD
+> E"  9 "9TH GRADE"  10 "10TH GRADE"  11 "11TH GRADE"  12 "12TH GRADE"  13 "1ST YEAR COLLEGE"  14 "2ND YEAR COLLEGE"  15 "3RD YEAR COLLEGE"  16 "4TH YEA
+> R COLLEGE"  17 "5TH YEAR COLLEGE"  18 "6TH YEAR COLLEGE"  19 "7TH YEAR COLLEGE"  20 "8TH YEAR COLLEGE OR MORE"  95 "UNGRADED" 
+
+. label values t8128900 vlt8128900
+
+. 
+. label define vlt5797300 1 "YES"  0 "NO" 
+
+. label values t5797300 vlt5797300
+
+. 
+. label define vlt5808400 1 "Like it very much"  2 "Like it fairly well"  3 "Think it is OK"  4 "Dislike it somewhat"  5 "Dislike it very much" 
+
+. label values t5808400 vlt5808400
+
+. 
+. label define vlt6316000 1 "YES"  0 "NO" 
+
+. label values t6316000 vlt6316000
+
+. 
+. label define vlt6230100 170 "170 TO 290: AGRICULTURE, FORESTRY AND FISHERIES"  370 "370 TO 490: MINING"  570 "570 TO 690: UTILITIES"  770 "770: CONSTR
+> UCTION"  1070 "1070 TO 3990: MANUFACTURING"  4070 "4070 TO 4590: WHOLESALE TRADE"  4670 "4670 TO 5790: RETAIL TRADE"  5890 "5890: ARTS, ENTERTAINMENT 
+> AND RECREATION SERVICES"  6070 "6070 TO 6390: TRANSPORTATION AND WAREHOUSING"  6470 "6470 TO 6780: INFORMATION AND COMMUNICATION"  6870 "6870 TO 7190:
+>  FINANCE, INSURANCE, AND REAL ESTATE"  7270 "7270 TO 7790: PROFESSIONAL AND RELATED SERVICES"  7860 "7860 TO 8470: EDUCATIONAL, HEALTH, AND SOCIAL SER
+> VICES"  8560 "8560 TO 8690: ENTERTAINMENT, ACCOMODATIONS, AND FOOD SERVICES"  8770 "8770 TO 9290: OTHER SERVICES"  9370 "9370 TO 9590: PUBLIC ADMINIST
+> RATION"  9670 "9670 TO 9890: ACTIVE DUTY MILITARY"  9950 "9950 TO 9990: ACS SPECIAL CODES" 
+
+. label values t6230100 vlt6230100
+
+. 
+. label define vlr0532200 1 "Yes"  0 "No" 
+
+. label values r0532200 vlr0532200
+
+. 
+. label define vlr1302400 0 "NONE"  1 "1ST GRADE"  2 "2ND GRADE"  3 "3RD GRADE"  4 "4TH GRADE"  5 "5TH GRADE"  6 "6TH GRADE"  7 "7TH GRADE"  8 "8TH GRAD
+> E"  9 "9TH GRADE"  10 "10TH GRADE"  11 "11TH GRADE"  12 "12TH GRADE"  13 "1ST YEAR COLLEGE"  14 "2ND YEAR COLLEGE"  15 "3RD YEAR COLLEGE"  16 "4TH YEA
+> R COLLEGE"  17 "5TH YEAR COLLEGE"  18 "6TH YEAR COLLEGE"  19 "7TH YEAR COLLEGE"  20 "8TH YEAR COLLEGE OR MORE"  95 "UNGRADED" 
+
+. label values r1302400 vlr1302400
+
+. 
+. label define vlr1302500 0 "NONE"  1 "1ST GRADE"  2 "2ND GRADE"  3 "3RD GRADE"  4 "4TH GRADE"  5 "5TH GRADE"  6 "6TH GRADE"  7 "7TH GRADE"  8 "8TH GRAD
+> E"  9 "9TH GRADE"  10 "10TH GRADE"  11 "11TH GRADE"  12 "12TH GRADE"  13 "1ST YEAR COLLEGE"  14 "2ND YEAR COLLEGE"  15 "3RD YEAR COLLEGE"  16 "4TH YEA
+> R COLLEGE"  17 "5TH YEAR COLLEGE"  18 "6TH YEAR COLLEGE"  19 "7TH YEAR COLLEGE"  20 "8TH YEAR COLLEGE OR MORE"  95 "UNGRADED" 
+
+. label values r1302500 vlr1302500
+
+. 
+. label define vlr1486500 1 "Uninvolved"  2 "Permissive"  3 "Authoritarian"  4 "Authoritative" 
+
+. label values r1486500 vlr1486500
+
+. 
+. label define vlr1486600 1 "Uninvolved"  2 "Permissive"  3 "Authoritarian"  4 "Authoritative" 
+
+. label values r1486600 vlr1486600
+
+. 
+. label define vlr1486900 0 "0: 0: Not religious"  100 "100 TO 599: 1.00-5.99"  600 "600: 6: Very religious" 
+
+. label values r1486900 vlr1486900
+
+. 
+. label define vlr1487700 0 "0"  1 "1 TO 2"  3 "3 TO 4"  5 "5 TO 6"  7 "7 TO 8"  9 "9 TO 10" 
+
+. label values r1487700 vlr1487700
+
+. 
+. label define vlr1487800 0 "0"  1 "1"  2 "2"  3 "3" 
+
+. label values r1487800 vlr1487800
+
+. 
+. /* Crosswalk for Reference number & Question name + Cleaning data set 
+> // This portion is provide by data set and modified for clarity
+> // -1 (refusal), -2 (Don't know), -3 (Invalid Skip), -4 Valid skip, -5 Non-interview
+>  */
+.   /* *start* */
+.   //1997
+.   rename r0000100 ID_1997 //ID number
+
+.   rename r0536300 SEX_1997 //Male or female
+
+.   rename r0536401 BDATE_M_1997 //month
+
+.   rename r0536402 BDATE_Y_1997 //year
+
+.   rename r1204500 Par_GROSS_HH_INCOME_IN_PAST_YEAR //gross hh income from parents
+
+. mvdecode Par_GROSS_HH_INCOME_IN_PAST_YEAR  , mv(-4=.\ -3=. \ -2=. \-1=.)
+Par_GROSS_~R: 2396 missing values generated
+
+.   rename r1235800 SAMPLE_TYPE_1997 //cross section or oversample
+
+.   rename r1482600 RACE_ETHNICITY_1997 //race ethnic background
+
+.   //2010
+.   rename t5201400 AGE_2010 //Age
+
+. mvdecode AGE_2010  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+    AGE_2010: 1505 missing values generated
+
+.   rename t5202300 CENSUS_REGION_2010 //region
+
+. mvdecode CENSUS_REGION_2010 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+CENSUS_~2010: 1562 missing values generated
+
+.   rename t5207400 HIGHEST_DEGREE_2010 //highest degree earned (dont know what they went to school for)
+
+. mvdecode HIGHEST_DEGREE_2010 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+HIGHEST~2010: 1544 missing values generated
+
+.   rename t5211900 URBAN_RURAL_2010   // URBAN or RURAL
+
+. mvdecode URBAN_RURAL_2010 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+URBAN_R~2010: 1569 missing values generated
+
+.   rename t5213200 SAMPLING_WEIGHT_CC_2010  //sample weight 
+
+.   rename t5397100 College_GPA   //college GPA
+
+. mvdecode College_GPA  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+ College_GPA: 8264 missing values generated
+
+.   rename t6055500 Wages_2010   // Total Income from wages --> Wierd maximums did they try categoricals but made them into numerics???
+
+. mvdecode Wages_2010 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \130254=.)
+  Wages_2010: 3837 missing values generated
+
+.   rename t6141700 Height_feet  // Height, feet
+
+. mvdecode Height_feet , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+ Height_feet: 1677 missing values generated
+
+.   rename t6141800 Height_inches   // Height, inches      --> May need need to combine both measurements if need be
+
+. mvdecode Height_inches, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Height_inc~s: 1689 missing values generated
+
+.   rename t6145800 DESCRIBE_WEIGHT   // R DESCRIBE WEIGHT
+
+. mvdecode DESCRIBE_WEIGHT , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+DESCRIBE_W~T: 1683 missing values generated
+
+.   rename t6206400 GENERAL_HEALTH  // HOW IS R'S GENERAL HEALTH?
+
+. mvdecode GENERAL_HEALTH, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GENERAL_HE~H: 1511 missing values generated
+
+.   rename t6210200 Health_limiting_work   // R LIMITED IN AMOUNT OF WORK BECAUSE OF HEALTH?
+
+. mvdecode Health_limiting_work , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Health_lim~k: 1533 missing values generated
+
+.   rename t6216400 PS1_HARD_WORKER   // PERSONALITY SCALE: HARD WORKER
+
+. mvdecode PS1_HARD_WORKER  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS1_HARD_W~R: 1541 missing values generated
+
+.   rename t6216401 PS2_Amount_of_work  // PERSONALITY SCALE: AMOUNT OF WORK
+
+. mvdecode PS2_Amount_of_work  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS2_Amount~k: 1541 missing values generated
+
+.   rename t6216402 PS3_Work_Stand   // PERSONALITY SCALE: WORK STANDARDS
+
+. mvdecode PS3_Work_Stand , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS3_Work_S~d: 1595 missing values generated
+
+.   rename t6216403 PS4_Effort_at_work  // PERSONALITY SCALE: EFFORT AT WORK
+
+. mvdecode PS4_Effort_at_work , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS4_Effort~k: 1565 missing values generated
+
+.   rename t6216500 PS5_Following_rules   // PERSONALITY SCALE: FOLLOWING RULES
+
+. mvdecode PS5_Following_rules  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS5_Follow~s: 1564 missing values generated
+
+.   rename t6216501 PS6_Breaking_school_rules   // PERSONALITY SCALE: BREAKING SCHOOL RULES
+
+. mvdecode PS6_Breaking_school_rules   , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS6_Breaki~s: 1542 missing values generated
+
+.   rename t6216502 PS7_Support_rules_trad     // PERSONALITY SCALE: SUPPORT FOR RULES AND TRADITIONS
+
+. mvdecode PS7_Support_rules_trad , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS7_Suppor~d: 1571 missing values generated
+
+.   rename t6216503 PS8_Bending_rules // PERSONALITY SCALE: BENDING RULES
+
+. mvdecode PS8_Bending_rules , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+PS8_Bendin~s: 1573 missing values generated
+
+.   rename t6231000 Occupation_codes   // Most Recent Employee Job, 2002 Codes (industry)
+
+. mvdecode Occupation_codes  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Occupation~s: 2719 missing values generated
+
+.   rename t5915200 Marital_Status   // Marital Status
+
+. mvdecode Marital_Status  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Marital_St~s: 1512 missing values generated
+
+.   rename t5206800 Education_2010 //Grade in Years
+
+. mvdecode Education_2010 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.\95=.)
+Educati~2010: 1581 missing values generated
+
+.   rename t5797300 Union_member   // does respondent have a Union membership
+
+. mvdecode Union_member, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Union_member: 3915 missing values generated
+
+.   rename t5808400 Job_satisfaction   // How satisfied are you with your job?
+
+. mvdecode Job_satisfaction, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Job_satisf~n: 3158 missing values generated
+
+.   rename t6316000 TRAINING_Program   // TRAINING
+
+. mvdecode TRAINING_Program, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+TRAINING_P~m: 7946 missing values generated
+
+.   rename t6230100 Industry_2010   // Industry
+
+. mvdecode Industry_2010, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+Industr~2010: 2719 missing values generated
+
+.    
+.   //2013
+.   rename t8123600 AGE_2013 //interview date
+
+. mvdecode AGE_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+    AGE_2013: 1844 missing values generated
+
+.   rename t8123700 CENSUS_REGION_2013 //region
+
+. mvdecode CENSUS_REGION_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+CENSUS_~2013: 1912 missing values generated
+
+.   rename t8129600 HIGHEST_DEGREE_2013 //highest degree earned
+
+. mvdecode HIGHEST_DEGREE_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+HIGHEST~2013: 1870 missing values generated
+
+.   rename t8134500 URBAN_RURAL_2013   // CV_URBAN-RURAL
+
+. mvdecode URBAN_RURAL_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+URBAN_R~2013: 1922 missing values generated
+
+.   rename t8976700 wages_2013   // TOTAL INCOME FROM WAGES AND SALARY IN PAST YEAR
+
+. mvdecode wages_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.\180331=.)
+  wages_2013: 3868 missing values generated
+
+.   rename t9039300 weight_pounds_2013   // R'S WEIGHT - POUNDS
+
+. mvdecode weight_pounds_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+weight_~2013: 2059 missing values generated
+
+.   rename t9039400 GRIT_1_distracted_2013   // GRIT SCALE: NEW IDEAS DISTRACT FROM OLD ONES
+
+. mvdecode GRIT_1_distracted_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_1_~2013: 2060 missing values generated
+
+.   rename t9039500 GRIT_2_not_discouraged_2013   // GRIT SCALE: SETBACKS DO NOT DISCOURAGE
+
+. mvdecode GRIT_2_not_discouraged_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_2_~2013: 2018 missing values generated
+
+.   rename t9039600 GRIT_3_obsessions_2013    // GRIT SCALE: SHORT TERM OBSESSIONS
+
+. mvdecode GRIT_3_obsessions_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_3_~2013: 2035 missing values generated
+
+.   rename t9039700 GRIT_4_Hard_worker_2013   // GRIT SCALE: HARD WORKER
+
+. mvdecode GRIT_4_Hard_worker_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_4_~2013: 1916 missing values generated
+
+.   rename t9039800 GRIT_5_f_goal_change_2013   // GRIT SCALE: CHANGE GOALS FREQUENTLY
+
+. mvdecode GRIT_5_f_goal_change_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_5_~2013: 1969 missing values generated
+
+.   rename t9039900 GRIT_6_Focus_2013   // GRIT SCALE: MAINTAINING FOCUS
+
+. mvdecode GRIT_6_Focus_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_6_~2013: 1996 missing values generated
+
+.   rename t9040000 GRIT_7_project_completion_2013   // GRIT SCALE: ABILITY TO FINISH PROJECTS
+
+. mvdecode GRIT_7_project_completion_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+GRIT_7_~2013: 1926 missing values generated
+
+.   rename t9093100 General_health_2013   // HOW IS R'S GENERAL HEALTH?
+
+. mvdecode General_health_2013  , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+General~2013: 1854 missing values generated
+
+.   rename t9093300 health_limiting_work_2013   // R LIMITED IN AMOUNT OF WORK BECAUSE OF HEALTH?
+
+. mvdecode health_limiting_work_2013 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+health_~2013: 1865 missing values generated
+
+.   rename u0203700 college_gpa_2015   //college GPA
+
+. mvdecode college_gpa_2015 , mv(-5=.\ -4=.\ -3=. \ -2=. \-1=.)
+college~2015: 8520 missing values generated
+
+.   rename t8128900 Education_2013  // Grade in Years
+
+. mvdecode Education_2013, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+Educati~2013: 1937 missing values generated
+
+.   // No data for tenure 
+. recode SEX_1997 (1=0) (2=1), gen (R_Sex)
+(8984 differences between SEX_1997 and R_Sex)
+
+. label variable R_Sex "Female=1, Male=0"
+
+. 
+. //parental data
+.   rename r0532200 L_W_B_P   // Living with biological parents
+
+. mvdecode L_W_B_P, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+
+.   rename r1302400 HGC_BIO_DAD_1997     // Highest grade achieved by father
+
+. mvdecode HGC_BIO_DAD_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+HGC_BIO~1997: 1864 missing values generated
+
+.   rename r1302500 HGC_BIO_MOM_1997     // Highest grade achieved by mother
+
+. mvdecode HGC_BIO_MOM_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+HGC_BIO_MO~7: 694 missing values generated
+
+.   rename r1486500 FP_YMPSTYL_1997         // Mother's parenting style
+
+. mvdecode FP_YMPSTYL_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+FP_YMPS~1997: 404 missing values generated
+
+.   rename r1486600 FP_YFPSTYL_1997         // Father's parenting style
+
+. mvdecode FP_YFPSTYL_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+FP_YFPS~1997: 2563 missing values generated
+
+.   rename r1486900 RELIG_1997         // Religion scale
+
+. mvdecode RELIG_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+  RELIG_1997: 3023 missing values generated
+
+.   rename r1487700 CRIMI_1997         // Child's delinquency index
+
+. mvdecode CRIMI_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+  CRIMI_1997: 15 missing values generated
+
+.   rename r1487800 SUBSI_1997         // Substance use index
+
+. mvdecode SUBSI_1997, mv(-5=.\ -4=.\ -3=. \ -2=. \-1=. \95=.)
+  SUBSI_1997: 23 missing values generated
+
+. 
+.   /* *end* */  
+. /* To convert variable names to lower case use the TOLOWER command 
+>  *      (type findit tolower and follow the links to install).
+>  * TOLOWER VARLIST will change listed variables to lower case; 
+>  *  TOLOWER without a specified variable list will convert all variables in the dataset to lower case
+>  */
+. /* tolower */
+. //Extra cleaning for unknown
+. recode URBAN_RURAL_2010 (0=0) (1=1)(2=.), gen (Urban_2010)
+(70 differences between URBAN_RURAL_2010 and Urban_2010)
+
+. recode URBAN_RURAL_2013(0=0) (1=1) (2=.), gen (Urban_2013)
+(56 differences between URBAN_RURAL_2013 and Urban_2013)
+
+. //Categoricacl variables 
+. gen parents_income_class = .
+(8,984 missing values generated)
+
+. replace parents_income_class = 1 if Par_GROSS_HH_INCOME_IN_PAST_YEAR <=31000
+(2,736 real changes made)
+
+. replace parents_income_class = 2 if Par_GROSS_HH_INCOME_IN_PAST_YEAR >= 31000 & Par_GROSS_HH_INCOME_IN_PAST_YEAR < 42000
+(950 real changes made)
+
+. replace parents_income_class = 3 if Par_GROSS_HH_INCOME_IN_PAST_YEAR >= 42000 & Par_GROSS_HH_INCOME_IN_PAST_YEAR < 126000
+(2,676 real changes made)
+
+. replace parents_income_class = 4 if Par_GROSS_HH_INCOME_IN_PAST_YEAR >= 126000 & Par_GROSS_HH_INCOME_IN_PAST_YEAR < 188000
+(126 real changes made)
+
+. replace parents_income_class = 5 if Par_GROSS_HH_INCOME_IN_PAST_YEAR >= 188000 & Par_GROSS_HH_INCOME_IN_PAST_YEAR < 100000000
+(133 real changes made)
+
+. //change occupation code categorical
+. //Add names to categories <--##REEE##
+. recode Occupation_codes (1/430=1) (500/950=2) (1000/1240=3) (1300/1530=4)(1540/1560=5)(1600/1760=6)(1800/1860=7)(1900/1960=8)(2000/2060=9)(2100/2150=1
+> 0)(2200/2340=11) (2400/2550=12) (2600/2760=13) (2800/2960=14) (3000/3260=15) (3300/3650=16)(3700/3950=17)(4000/4160=18)(4200/4250=19) (4300/4430=20) (
+> 4460=21) (4500/4650=22) (4700/4960=23) (5000/5930=24) (6000/6130=25) (6200/6940=26) (7000/7620=27) (7700/7750=28) (7800/7850=29) (7900/8960=30) (9000/
+> 9750 = 31) (9800/9840 = 32) (9950/9990 = 33) , gen (Occupation_Category)
+(6265 differences between Occupation_codes and Occupation_Category)
+
+. recode Industry_2010 (1/290=1) (370/490=2) (570/690=3) (770/1000=4)(1070/3990=5)(4070/4590=6)(4670/5790=7)(5890=8)(6070/6390=9)(6470/6780=10)(6870/719
+> 0=11) (7270/7790=12) (7860/8470=13) (8560/8690=14) (8770/9290=15) (9370/9590=16)(9670/9890=17)(9950/9990=18), gen (Industry_Category)
+(6265 differences between Industry_2010 and Industry_Category)
+
+. //Removing non standart (0-4 scale gpa's scores)
+. gen gpa_2010= College_GPA/100
+(8,264 missing values generated)
+
+. sort gpa_2010
+
+. replace gpa_2010 = . in 713/720
+(8 real changes made, 8 to missing)
+
+. gen gpa_2013 = college_gpa_2015/100
+(8,520 missing values generated)
+
+. sort gpa_2013
+
+. replace gpa_2013 = . in 458/464
+(7 real changes made, 7 to missing)
+
+. 
+. //Descriptives
+. //graph pie, over(SEX_1997)
+. //graph pie, over(RACE_ETHNICITY_1997)
+. //graph pie, over(AGE_2010) above three are representative of sample 
+. // Below are using weights which discount or inflate sample in accordance to US population data
+. //remove comments to add pause
+. //more
+. graph pie [pweight = SAMPLING_WEIGHT_CC_2010], over(RACE_ETHNICITY_1997)
+
+. //more
+. graph pie [pweight = SAMPLING_WEIGHT_CC_2010], over(AGE_2010) 
+
+. //more
+. graph pie [pweight = SAMPLING_WEIGHT_CC_2010], over(HIGHEST_DEGREE_2010)
+
+. //more
+. graph hbox Par_GROSS_HH_INCOME_IN_PAST_YEAR
+
+. //more
+. graph hbox gpa_2010
+
+. //more
+. sum
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     ID_1997 |      8,984    4504.302    2603.136          1       9022
+    SEX_1997 |      8,984     1.48809     .499886          1          2
+BDATE_M_1997 |      8,984    6.555988    3.469429          1         12
+BDATE_Y_1997 |      8,984     1982.01     1.39687       1980       1984
+Par_GROSS_~R |      6,588     46361.7     42143.5     -48100     246474
+-------------+---------------------------------------------------------
+SAMPLE_~1997 |      8,984    .7511131    .4323922          0          1
+RACE_ET~1997 |      8,984    2.787845    1.313645          1          4
+    AGE_2010 |      7,479    27.89905    1.436392         25         31
+CENSUS_~2010 |      7,422    2.706818    .9863668          1          4
+HIGHEST~2010 |      7,440    2.308871    1.385705          0          7
+-------------+---------------------------------------------------------
+URBAN_R~2010 |      7,415    .8095752    .4160135          0          2
+SAMPLIN~2010 |      8,984    215699.6    146234.5          0    1922275
+ College_GPA |        720    410.1431    819.7229          0       9800
+  Wages_2010 |      5,147    29661.62    18380.69          0      88000
+ Height_feet |      7,307    5.183386     .430856          1          7
+-------------+---------------------------------------------------------
+Height_inc~s |      7,295    5.298012    3.416442          0         12
+DESCRIBE_W~T |      7,301    3.519929    .8168055          1          5
+GENERAL_HE~H |      7,473    2.307775    .9831366          1          5
+Health_lim~k |      7,451    .0590525    .2357387          0          1
+PS1_HARD_W~R |      7,443    1.878544    1.508384          1          7
+-------------+---------------------------------------------------------
+PS2_Amount~k |      7,443    2.354964    1.733531          1          7
+PS3_Work_S~d |      7,389     6.26147    1.129347          1          7
+PS4_Effort~k |      7,419    5.905648    1.216847          1          7
+PS5_Follow~s |      7,420    4.412399     1.92381          1          7
+PS6_Breaki~s |      7,442    3.296291     2.18028          1          7
+-------------+---------------------------------------------------------
+PS7_Suppor~d |      7,413    5.102253    1.590603          1          7
+PS8_Bendin~s |      7,411     4.60842    1.880134          1          7
+Occupation~s |      6,265    4454.828    2436.584         10       9990
+    AGE_2013 |      7,140    31.00098    1.437545         28         34
+CENSUS_~2013 |      7,072    2.710266     .980602          1          4
+-------------+---------------------------------------------------------
+HIGHEST~2013 |      7,114    2.417065    1.440295          0          7
+URBAN_R~2013 |      7,062    .8496177    .3790084          0          2
+  wages_2013 |      5,116    35243.38    22543.77          0     111131
+weight_~2013 |      6,925    185.5375    50.64451          1        474
+GRIT_1_~2013 |      6,924    3.376228    1.079327          1          5
+-------------+---------------------------------------------------------
+GRIT_2_~2013 |      6,966    3.007608    1.215159          1          5
+GRIT_3_~2013 |      6,949      3.6765    1.100634          1          5
+GRIT_4_~2013 |      7,068    1.399689    .6806342          1          5
+GRIT_5_~2013 |      7,015    3.616964    1.051007          1          5
+GRIT_6_~2013 |      6,988    3.748283     1.10506          1          5
+-------------+---------------------------------------------------------
+GRIT_7_~2013 |      7,058    1.950553    .8923766          1          5
+General~2013 |      7,130    2.319355    .9879218          1          5
+health_~2013 |      7,119    .0703751     .255796          0          1
+college~2015 |        464     408.625    779.1125          0       9300
+Marital_St~s |      7,472    .5517934     .798033          0          4
+-------------+---------------------------------------------------------
+Educati~2010 |      7,403    11.44144    1.145658          5         12
+Educati~2013 |      7,047    13.67107    2.986523          5         20
+Union_member |      5,069    .1347406      .34148          0          1
+Job_satisf~n |      5,826    2.043083    1.027868          1          5
+TRAINING_P~m |      1,038    .2475915    .4318213          0          1
+-------------+---------------------------------------------------------
+Industr~2010 |      6,265    6550.497    2536.514        170       9990
+     L_W_B_P |      8,984     .489203    .4999112          0          1
+HGC_BIO_DA~7 |      7,120    12.56433    3.211873          1         20
+HGC_BIO_MO~7 |      8,290    12.43812    2.913453          1         20
+FP_YMPS~1997 |      8,580    2.865618    1.081268          1          4
+-------------+---------------------------------------------------------
+FP_YFPS~1997 |      6,421    2.851269    1.078605          1          4
+  RELIG_1997 |      5,961     377.097    159.1748          0        600
+  CRIMI_1997 |      8,969    1.332479    1.837953          0         10
+  SUBSI_1997 |      8,961     1.02098    1.129656          0          3
+    u0009400 |      8,984    .8866874     3.31316         -5          7
+-------------+---------------------------------------------------------
+       R_Sex |      8,984    .4880899     .499886          0          1
+  Urban_2010 |      7,345    .7982301    .4013487          0          1
+  Urban_2013 |      7,006    .8404225    .3662399          0          1
+parents_in~s |      6,588    2.094718    1.032411          1          5
+Occupation~y |      6,265      18.585     8.76201          1         33
+-------------+---------------------------------------------------------
+Industry_C~y |      6,265    10.61117    3.783467          1         18
+    gpa_2010 |        712    3.291615    .5885803          0          4
+    gpa_2013 |        457    3.357593    .5467715          0          4
+
+. //Tabulate data
+. tab R_Sex
+
+  Female=1, |
+     Male=0 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      4,599       51.19       51.19
+          1 |      4,385       48.81      100.00
+------------+-----------------------------------
+      Total |      8,984      100.00
+
+. tab URBAN_RURAL_2010
+
+   T5211900 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+      Rural |      1,482       19.99       19.99
+      Urban |      5,863       79.07       99.06
+    Unknown |         70        0.94      100.00
+------------+-----------------------------------
+      Total |      7,415      100.00
+
+. tab Union_member
+
+   T5797300 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         NO |      4,386       86.53       86.53
+        YES |        683       13.47      100.00
+------------+-----------------------------------
+      Total |      5,069      100.00
+
+. tab Education_2010
+
+   T5206800 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  5th Grade |          2        0.03        0.03
+  6th Grade |         17        0.23        0.26
+  7th Grade |         37        0.50        0.76
+  8th Grade |        260        3.51        4.27
+  9th Grade |        406        5.48        9.75
+ 10th Grade |        500        6.75       16.51
+ 11th Grade |        576        7.78       24.29
+ 12th Grade |      5,605       75.71      100.00
+------------+-----------------------------------
+      Total |      7,403      100.00
+
+. tab Marital_Status
+
+     T5915200 |      Freq.     Percent        Cum.
+--------------+-----------------------------------
+Never-married |      4,368       58.46       58.46
+      Married |      2,510       33.59       92.05
+    Separated |        180        2.41       94.46
+     Divorced |        403        5.39       99.85
+      Widowed |         11        0.15      100.00
+--------------+-----------------------------------
+        Total |      7,472      100.00
+
+. tab GENERAL_HEALTH
+
+   T6206400 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  Excellent |      1,757       23.51       23.51
+  Very good |      2,618       35.03       58.54
+       Good |      2,238       29.95       88.49
+       Fair |        761       10.18       98.68
+       Poor |         99        1.32      100.00
+------------+-----------------------------------
+      Total |      7,473      100.00
+
+. tab CENSUS_REGION_2010
+
+                               T5202300 |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+Northeast (CT, ME, MA, NH, NJ, NY, PA,  |      1,157       15.59       15.59
+North Central (IL, IN, IA, KS, MI, MN,  |      1,546       20.83       36.42
+South (AL, AR, DE, DC, FL, GA, KY, LA,  |      3,035       40.89       77.31
+West (AK, AZ, CA, CO, HI, ID, MT, NV, N |      1,684       22.69      100.00
+----------------------------------------+-----------------------------------
+                                  Total |      7,422      100.00
+
+. tab AGE_2010
+
+   T5201400 |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         25 |        146        1.95        1.95
+         26 |      1,469       19.64       21.59
+         27 |      1,497       20.02       41.61
+         28 |      1,565       20.93       62.54
+         29 |      1,520       20.32       82.86
+         30 |      1,248       16.69       99.55
+         31 |         34        0.45      100.00
+------------+-----------------------------------
+      Total |      7,479      100.00
+
+. tab parents_income_class
+
+parents_inc |
+  ome_class |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      2,703       41.03       41.03
+          2 |        950       14.42       55.45
+          3 |      2,676       40.62       96.07
+          4 |        126        1.91       97.98
+          5 |        133        2.02      100.00
+------------+-----------------------------------
+      Total |      6,588      100.00
+
+. tab HIGHEST_DEGREE_2010
+
+                               T5207400 |      Freq.     Percent        Cum.
+----------------------------------------+-----------------------------------
+                                   None |        779       10.47       10.47
+                                    GED |        913       12.27       22.74
+High school diploma (Regular 12 year pr |      3,362       45.19       67.93
+          Associate/Junior college (AA) |        510        6.85       74.78
+             Bachelor's degree (BA, BS) |      1,511       20.31       95.09
+               Master's degree (MA, MS) |        289        3.88       98.98
+                                    PhD |         10        0.13       99.11
+      Professional degree (DDS, JD, MD) |         66        0.89      100.00
+----------------------------------------+-----------------------------------
+                                  Total |      7,440      100.00
+
+. tab RACE_ETHNICITY_1997
+
+                 R1482600 |      Freq.     Percent        Cum.
+--------------------------+-----------------------------------
+                    Black |      2,335       25.99       25.99
+                 Hispanic |      1,901       21.16       47.15
+Mixed Race (Non-Hispanic) |         83        0.92       48.07
+ Non-Black / Non-Hispanic |      4,665       51.93      100.00
+--------------------------+-----------------------------------
+                    Total |      8,984      100.00
+
+. 
+. //Generating
+. gen log_wage_2010 = log( Wages_2010 )
+(3,874 missing values generated)
+
+. gen log_wage_2013 = log( wages_2013 )
+(3,899 missing values generated)
+
+. gen Training_squared = TRAINING_Program * TRAINING_Program
+(7,946 missing values generated)
+
+. 
+. //Graphs
+. //normal
+. twoway (scatter  log_wage_2010 HIGHEST_DEGREE_2010, mcolor(blue) msymbol(o) ) (lfit  log_wage_2010 HIGHEST_DEGREE_2010 )
+
+. //log
+. twoway (scatter  Wages_2010 HIGHEST_DEGREE_2010, mcolor(blue) msymbol(o) ) (lfit  Wages_2010 HIGHEST_DEGREE_2010 )
+
+. //log by gender
+. twoway (scatter log_wage_2010 HIGHEST_DEGREE_2010 if R_Sex ==0, mcolor(blue) msymbol(o) ) (lfit log_wage_2010 HIGHEST_DEGREE_2010 if R_Sex ==0) (scatt
+> er log_wage_2010 HIGHEST_DEGREE_2010 if R_Sex==1, mcolor(red) msymbol(o)) (lfit log_wage_2010 HIGHEST_DEGREE_2010 if R_Sex==1)
+
+. //Population pyramid
+. /*
+> gen f_age = AGE_2010 if R_Sex==1
+> gen m_age = AGE_2010 if R_Sex==0
+> replace m_age = -m_age
+> #delimit ;
+> twoway bar m_age AGE_2010, horizontal ||
+> bar f_age AGE_2010, horizontal
+> title("Male and Female by Age, Year 2010")
+> note("note", span);
+> #delimit cr
+> */
+. //gen f_wage = Wages_2010 if R_Sex==1
+. //gen m_wage = Wages_2010 if R_Sex==0
+. //replace m_wage = -m_wage
+. //#delimit ;
+. //twoway bar m_wage HIGHEST_DEGREE_2010, horizontal ||
+. //bar f_wage HIGHEST_DEGREE_2010, horizontal
+. //title("title")
+. //note("note7", span);
+. //dont forget to name these
+. //re runs these so you can add better titles
+. twoway (scatter log_wage_2010 AGE_2010 if parents_income_class ==1, mcolor(blue) msymbol(.) ) (lfit log_wage_2010 AGE_2010 if parents_income_class  ==
+> 1) (scatter log_wage_2010 AGE_2010 if parents_income_class ==2, mcolor(red) msymbol(.)) (lfit log_wage_2010 AGE_2010 if parents_income_class ==2) (sca
+> tter log_wage_2010 AGE_2010 if parents_income_class ==3, mcolor(yellow) msymbol(.) ) (lfit log_wage_2010 AGE_2010 if parents_income_class  ==3) (scatt
+> er log_wage_2010 AGE_2010 if parents_income_class ==4, mcolor(lavender) msymbol(.)) (lfit log_wage_2010 AGE_2010 if parents_income_class ==4) (scatter
+>  log_wage_2010 AGE_2010 if parents_income_class ==5, mcolor(brown) msymbol(.) ) (lfit log_wage_2010 AGE_2010 if parents_income_class  ==5)
+
+. twoway (scatter log_wage_2010 AGE_2010 if parents_income_class ==1, mcolor(blue) msymbol(i) ) (lfit log_wage_2010 AGE_2010 if parents_income_class  ==
+> 1) (scatter log_wage_2010 AGE_2010 if parents_income_class ==2, mcolor(red) msymbol(i)) (lfit log_wage_2010 AGE_2010 if parents_income_class ==2) (sca
+> tter log_wage_2010 AGE_2010 if parents_income_class ==3, mcolor(yellow) msymbol(i) ) (lfit log_wage_2010 AGE_2010 if parents_income_class  ==3) (scatt
+> er log_wage_2010 AGE_2010 if parents_income_class ==4, mcolor(lavender) msymbol(i)) (lfit log_wage_2010 AGE_2010 if parents_income_class ==4) (scatter
+>  log_wage_2010 AGE_2010 if parents_income_class ==5, mcolor(brown) msymbol(i) ) (lfit log_wage_2010 AGE_2010 if parents_income_class  ==5)
+
+. twoway (scatter Wages_2010 Education_2010)
+
+. twoway (scatter Wages_2010 AGE_2010 if parents_income_class ==1, mcolor(blue) msymbol(i) ) (lfit Wages_2010 AGE_2010 if parents_income_class  ==1) (sc
+> atter Wages_2010 AGE_2010 if parents_income_class ==2, mcolor(red) msymbol(i)) (lfit Wages_2010 AGE_2010 if parents_income_class==2) (scatter Wages_20
+> 10 AGE_2010 if parents_income_class ==3, mcolor(yellow) msymbol(i) ) (lfit Wages_2010 AGE_2010 if parents_income_class  ==3) (scatter Wages_2010 AGE_2
+> 010 if parents_income_class ==4, mcolor(lavender) msymbol(i)) (lfit Wages_2010 AGE_2010 if parents_income_class ==4) (scatter Wages_2010 AGE_2010 if p
+> arents_income_class ==5, mcolor(brown) msymbol(i) ) (lfit Wages_2010 AGE_2010 if parents_income_class  ==5)
+
+. twoway (scatter Wages_2010 AGE_2010 if parents_income_class ==1, mcolor(blue) msymbol(.) ) (lfit Wages_2010 AGE_2010 if parents_income_class  ==1) (sc
+> atter Wages_2010 AGE_2010 if parents_income_class ==2, mcolor(red) msymbol(.)) (lfit Wages_2010 AGE_2010 if parents_income_class==2) (scatter Wages_20
+> 10 AGE_2010 if parents_income_class ==3, mcolor(yellow) msymbol(.) ) (lfit Wages_2010 AGE_2010 if parents_income_class  ==3) (scatter Wages_2010 AGE_2
+> 010 if parents_income_class ==4, mcolor(lavender) msymbol(.)) (lfit Wages_2010 AGE_2010 if parents_income_class ==4) (scatter Wages_2010 AGE_2010 if p
+> arents_income_class ==5, mcolor(brown) msymbol(.) ) (lfit Wages_2010 AGE_2010 if parents_income_class  ==5)
+
+. twoway (scatter wages_2013 AGE_2013 if parents_income_class ==1, mcolor(blue) msymbol(.) ) (lfit wages_2013 AGE_2013 if parents_income_class  ==1) (sc
+> atter wages_2013 AGE_2013 if parents_income_class ==2, mcolor(red) msymbol(.)) (lfit wages_2013 AGE_2013 if parents_income_class==2) (scatter wages_20
+> 13 AGE_2013 if parents_income_class ==3, mcolor(yellow) msymbol(.) ) (lfit wages_2013 AGE_2013 if parents_income_class  ==3) (scatter wages_2013 AGE_2
+> 013 if parents_income_class ==4, mcolor(lavender) msymbol(.)) (lfit wages_2013 AGE_2013 if parents_income_class ==4) (scatter wages_2013 AGE_2013 if p
+> arents_income_class ==5, mcolor(brown) msymbol(.) ) (lfit wages_2013 AGE_2013 if parents_income_class  ==5)
+
+. twoway (scatter wages_2013 AGE_2013 if parents_income_class ==1, mcolor(blue) msymbol(i) ) (lfit wages_2013 AGE_2013 if parents_income_class  ==1) (sc
+> atter wages_2013 AGE_2013 if parents_income_class ==2, mcolor(red) msymbol(i)) (lfit wages_2013 AGE_2013 if parents_income_class==2) (scatter wages_20
+> 13 AGE_2013 if parents_income_class ==3, mcolor(yellow) msymbol(i) ) (lfit wages_2013 AGE_2013 if parents_income_class  ==3) (scatter wages_2013 AGE_2
+> 013 if parents_income_class ==4, mcolor(lavender) msymbol(i)) (lfit wages_2013 AGE_2013 if parents_income_class ==4) (scatter wages_2013 AGE_2013 if p
+> arents_income_class ==5, mcolor(brown) msymbol(i) ) (lfit wages_2013 AGE_2013 if parents_income_class  ==5)
+
+. twoway (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==1, mcolor(blue) msymbol(i) ) (lfit Wages_2010 HIGHEST_DEGREE_2010 if parents_
+> income_class  ==1) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==2, mcolor(red) msymbol(i)) (lfit Wages_2010 HIGHEST_DEGREE_2010 i
+> f parents_income_class==2) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==3, mcolor(yellow) msymbol(i) ) (lfit Wages_2010 HIGHEST_D
+> EGREE_2010 if parents_income_class  ==3) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==4, mcolor(lavender) msymbol(i)) (lfit Wages
+> _2010 HIGHEST_DEGREE_2010 if parents_income_class ==4) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==5, mcolor(brown) msymbol(i) )
+>  (lfit Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class  ==5)
+
+. twoway (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==1, mcolor(blue) msymbol(.) ) (lfit Wages_2010 HIGHEST_DEGREE_2010 if parents_
+> income_class  ==1) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==2, mcolor(red) msymbol(.)) (lfit Wages_2010 HIGHEST_DEGREE_2010 i
+> f parents_income_class==2) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==3, mcolor(yellow) msymbol(.) ) (lfit Wages_2010 HIGHEST_D
+> EGREE_2010 if parents_income_class  ==3) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==4, mcolor(lavender) msymbol(.)) (lfit Wages
+> _2010 HIGHEST_DEGREE_2010 if parents_income_class ==4) (scatter Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class ==5, mcolor(brown) msymbol(.) )
+>  (lfit Wages_2010 HIGHEST_DEGREE_2010 if parents_income_class  ==5)
+
+. //twoway (scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==0, mcolor(blue) msymbol(i) ) (lfit Wages_2010 parents_income_class if HIGHE
+> ST_DEGREE_2010  ==0) (scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==1, mcolor(red) msymbol(i)) (lfit Wages_2010 parents_income_clas
+> s if HIGHEST_DEGREE_2010 ==1) (scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==2, mcolor(yellow) msymbol(i) ) (lfit Wages_2010 parent
+> s_income_class if HIGHEST_DEGREE_2010  ==2) (scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==3, mcolor(lavender) msymbol(i)) (lfit Wa
+> ges_2010 parents_income_class if HIGHEST_DEGREE_2010 ==3) (scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==4, mcolor(brown) msymbol(i
+> ) ) (lfit Wages_2010 parents_income_class if HIGHEST_DEGREE_2010  ==4)(scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==5, mcolor(lave
+> nder) msymbol(i)) (lfit Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==5) (scatter Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==
+> 6, mcolor(brown) msymbol(i) ) (lfit Wages_2010 parents_income_class if HIGHEST_DEGREE_2010  ==6) (scatter Wages_2010 parents_income_class if HIGHEST_D
+> EGREE_2010 ==7, mcolor(lavender) msymbol(i)) (lfit Wages_2010 parents_income_class if HIGHEST_DEGREE_2010 ==7)
+. //Run regresions
+. reg Wages_2010 HIGHEST_DEGREE_2010 [pweight = SAMPLING_WEIGHT_CC_2010] , robust
+(sum of wgt is 1372423172)
+
+Linear regression                               Number of obs     =      5,119
+                                                F(1, 5117)        =     413.39
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0953
+                                                Root MSE          =      17739
+
+-------------------------------------------------------------------------------------
+                    |               Robust
+         Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+HIGHEST_DEGREE_2010 |   4243.237   208.6963    20.33   0.000     3834.103    4652.371
+              _cons |   19818.88   562.3715    35.24   0.000     18716.39    20921.36
+-------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", replace ctitle(reg1) label // output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. //reg log_wage_2010 HIGHEST_DEGREE_2010 [pweight = SAMPLING_WEIGHT_CC_2010] , robust
+. //outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg2) label  //appendetement to output
+. reg Wages_2010 HIGHEST_DEGREE_2010 parents_income_class [pweight = SAMPLING_WEIGHT_CC_2010] , robust
+(sum of wgt is 1059719283)
+
+Linear regression                               Number of obs     =      3,843
+                                                F(2, 3840)        =     196.16
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1134
+                                                Root MSE          =      17493
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   3804.911   246.4705    15.44   0.000     3321.685    4288.136
+parents_income_class |   2211.464   330.4101     6.69   0.000     1563.668     2859.26
+               _cons |   15773.32   804.6937    19.60   0.000     14195.65    17350.99
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg2) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 parents_income_class R_Sex [pweight = SAMPLING_WEIGHT_CC_2010] , robust
+(sum of wgt is 1059719283)
+
+Linear regression                               Number of obs     =      3,843
+                                                F(3, 3839)        =     189.47
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1509
+                                                Root MSE          =      17122
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   4249.728   244.8052    17.36   0.000     3769.767    4729.689
+parents_income_class |   2020.336   325.5222     6.21   0.000     1382.123    2658.549
+               R_Sex |  -7288.127   603.1584   -12.08   0.000    -8470.668   -6105.585
+               _cons |   18456.94   832.3536    22.17   0.000     16825.05    20088.84
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg3) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 parents_income_class RACE_ETHNICITY_1997 [pweight = SAMPLING_WEIGHT_CC_2010] , robust
+(sum of wgt is 1059719283)
+
+Linear regression                               Number of obs     =      3,843
+                                                F(3, 3839)        =     139.91
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1164
+                                                Root MSE          =      17466
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   3755.587   245.7836    15.28   0.000     3273.708    4237.466
+parents_income_class |   1938.628   343.5344     5.64   0.000       1265.1    2612.155
+ RACE_ETHNICITY_1997 |   971.7552    237.084     4.10   0.000     506.9325    1436.578
+               _cons |   13231.18   913.3696    14.49   0.000     11440.44    15021.91
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg4) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 [pweight = SAMPLING_WEIGHT_CC_2010] , robust
+(sum of wgt is 1054294311)
+
+Linear regression                               Number of obs     =      3,822
+                                                F(4, 3817)        =     105.72
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1179
+                                                Root MSE          =      17433
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   3780.154   246.4158    15.34   0.000     3297.035    4263.273
+parents_income_class |    1925.04   344.8803     5.58   0.000     1248.873    2601.208
+ RACE_ETHNICITY_1997 |   1022.297   240.1136     4.26   0.000      551.534    1493.061
+  CENSUS_REGION_2010 |   348.7764   330.9228     1.05   0.292     -300.026    997.5789
+               _cons |   12156.62   1360.511     8.94   0.000     9489.222    14824.02
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg5) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 Marital_Status [pweight = SAMPLING_WEIGHT_CC_2010], rob
+> ust
+(sum of wgt is 1053849320)
+
+Linear regression                               Number of obs     =      3,820
+                                                F(5, 3814)        =      86.89
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1194
+                                                Root MSE          =      17423
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   3823.274   246.2604    15.53   0.000     3340.459    4306.089
+parents_income_class |   1923.682   344.9547     5.58   0.000     1247.369    2599.995
+ RACE_ETHNICITY_1997 |   951.5206   242.6166     3.92   0.000     475.8499    1427.191
+  CENSUS_REGION_2010 |   305.4444   331.3221     0.92   0.357    -344.1411    955.0299
+      Marital_Status |   800.1379   347.7494     2.30   0.021     118.3453    1481.931
+               _cons |   11904.29    1356.48     8.78   0.000     9244.794    14563.79
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg6) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 Marital_Status Union_member TRAINING_Program [pweight =
+>  SAMPLING_WEIGHT_CC_2010], robust
+(sum of wgt is 122005692)
+
+Linear regression                               Number of obs     =        439
+                                                F(7, 431)         =      10.84
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1594
+                                                Root MSE          =      17833
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   4084.206   782.3215     5.22   0.000     2546.566    5621.845
+parents_income_class |   1705.023   1013.386     1.68   0.093      -286.77    3696.815
+ RACE_ETHNICITY_1997 |   2232.582   714.3265     3.13   0.002     828.5848    3636.578
+  CENSUS_REGION_2010 |  -371.5123   989.0387    -0.38   0.707    -2315.451    1572.427
+      Marital_Status |   464.5378   1027.052     0.45   0.651    -1554.115    2483.191
+        Union_member |   6234.158   2516.552     2.48   0.014     1287.918     11180.4
+    TRAINING_Program |   -96.3254   2130.621    -0.05   0.964    -4284.025    4091.374
+               _cons |   12199.56   4494.383     2.71   0.007     3365.923    21033.19
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg7) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010#HIGHEST_DEGREE_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 Marital_Status Union_member TRAININ
+> G_Program [pweight = SAMPLING_WEIGHT_CC_2010], robust
+(sum of wgt is 122005692)
+
+Linear regression                               Number of obs     =        439
+                                                F(13, 425)        =      11.26
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1822
+                                                Root MSE          =      17714
+
+----------------------------------------------------------------------------------------------------------------
+                                               |               Robust
+                                    Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------------------------------+----------------------------------------------------------------
+                           HIGHEST_DEGREE_2010 |
+                                          GED  |   11860.71   4293.193     2.76   0.006     3422.174    20299.24
+High school diploma (Regular 12 year program)  |   13527.18   2772.929     4.88   0.000     8076.822    18977.55
+                Associate/Junior college (AA)  |   18047.63   3994.247     4.52   0.000     10196.69    25898.57
+                   Bachelor's degree (BA, BS)  |   20252.95   3043.306     6.65   0.000     14271.14    26234.75
+                     Master's degree (MA, MS)  |   28047.74   5046.298     5.56   0.000     18128.93    37966.55
+                                          PhD  |   3579.589   3587.749     1.00   0.319    -3472.352    10631.53
+            Professional degree (DDS, JD, MD)  |    53015.9   8459.981     6.27   0.000     36387.29    69644.52
+                                               |
+                          parents_income_class |   1982.994    1030.38     1.92   0.055    -42.28191     4008.27
+                           RACE_ETHNICITY_1997 |     2252.5   715.7116     3.15   0.002     845.7253    3659.275
+                            CENSUS_REGION_2010 |   40.12239   995.7678     0.04   0.968     -1917.12    1997.365
+                                Marital_Status |   372.9686   1062.543     0.35   0.726    -1715.525    2461.462
+                                  Union_member |   6544.697    2542.84     2.57   0.010     1546.588    11542.81
+                              TRAINING_Program |  -530.5508   2111.984    -0.25   0.802    -4681.785    3620.683
+                                         _cons |   5368.565   4633.436     1.16   0.247    -3738.739    14475.87
+----------------------------------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg8) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010#HIGHEST_DEGREE_2010#HIGHEST_DEGREE_2010 parents_income_class# parents_income_class RACE_ETHNICITY_1997 CENSUS_REGIO
+> N_2010 Marital_Status Union_member TRAINING_Program [pweight = SAMPLING_WEIGHT_CC_2010], robust
+(sum of wgt is 122005692)
+
+Linear regression                               Number of obs     =        439
+                                                F(16, 422)        =       9.27
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1883
+                                                Root MSE          =      17710
+
+----------------------------------------------------------------------------------------------------------------
+                                               |               Robust
+                                    Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------------------------------+----------------------------------------------------------------
+                           HIGHEST_DEGREE_2010 |
+                                          GED  |   11877.37   4217.386     2.82   0.005      3587.67    20167.07
+High school diploma (Regular 12 year program)  |    13538.5   2707.622     5.00   0.000     8216.396    18860.61
+                Associate/Junior college (AA)  |   18123.38   3950.073     4.59   0.000     10359.11    25887.65
+                   Bachelor's degree (BA, BS)  |   20209.27   2996.803     6.74   0.000     14318.75    26099.79
+                     Master's degree (MA, MS)  |   27726.88   4925.533     5.63   0.000     18045.24    37408.51
+                                          PhD  |   3426.096   3725.541     0.92   0.358    -3896.832    10749.02
+            Professional degree (DDS, JD, MD)  |   52773.45   8664.622     6.09   0.000     35742.26    69804.64
+                                               |
+                          parents_income_class |
+                                            2  |   -207.876   2648.814    -0.08   0.937    -5414.388    4998.636
+                                            3  |   3586.936   2176.854     1.65   0.100    -691.8912    7865.763
+                                            4  |   12604.48   8082.275     1.56   0.120     -3282.05    28491.01
+                                            5  |   355.7961   8248.476     0.04   0.966    -15857.42    16569.01
+                                               |
+                           RACE_ETHNICITY_1997 |   2316.193   710.0067     3.26   0.001     920.6024    3711.783
+                            CENSUS_REGION_2010 |   62.08617   1016.709     0.06   0.951    -1936.359    2060.531
+                                Marital_Status |   409.9734    1060.53     0.39   0.699    -1674.606    2494.553
+                                  Union_member |   6302.114   2573.051     2.45   0.015     1244.522    11359.71
+                              TRAINING_Program |  -749.1803   2101.569    -0.36   0.722    -4880.026    3381.666
+                                         _cons |   7626.303   4573.301     1.67   0.096    -1362.982    16615.59
+----------------------------------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg9) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010#HIGHEST_DEGREE_2010#HIGHEST_DEGREE_2010 parents_income_class# parents_income_class RACE_ETHNICITY_1997# RACE_ETHNIC
+> ITY_1997 CENSUS_REGION_2010 Marital_Status#Marital_Status Union_member TRAINING_Program [pweight = SAMPLING_WEIGHT_CC_2010], robust
+(sum of wgt is 122005692)
+
+Linear regression                               Number of obs     =        439
+                                                F(20, 418)        =       9.21
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2240
+                                                Root MSE          =      17399
+
+----------------------------------------------------------------------------------------------------------------
+                                               |               Robust
+                                    Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-----------------------------------------------+----------------------------------------------------------------
+                           HIGHEST_DEGREE_2010 |
+                                          GED  |   13899.77   4150.008     3.35   0.001     5742.285    22057.26
+High school diploma (Regular 12 year program)  |   14861.32    2595.96     5.72   0.000     9758.559    19964.08
+                Associate/Junior college (AA)  |   18676.19   3766.189     4.96   0.000     11273.16    26079.22
+                   Bachelor's degree (BA, BS)  |   21410.18   2934.362     7.30   0.000     15642.24    27178.13
+                     Master's degree (MA, MS)  |   29560.66   4682.303     6.31   0.000     20356.87    38764.46
+                                          PhD  |   2090.849   3787.697     0.55   0.581    -5354.459    9536.157
+            Professional degree (DDS, JD, MD)  |   53874.03      10460     5.15   0.000     33313.27    74434.79
+                                               |
+                          parents_income_class |
+                                            2  |   76.39054     2603.4     0.03   0.977    -5040.996    5193.777
+                                            3  |   3479.006   2192.839     1.59   0.113    -831.3606    7789.372
+                                            4  |    12818.4   7743.656     1.66   0.099    -2402.965    28039.76
+                                            5  |   1131.674   7932.274     0.14   0.887    -14460.44    16723.79
+                                               |
+                           RACE_ETHNICITY_1997 |
+                                     Hispanic  |   8136.802   2675.798     3.04   0.003     2877.106     13396.5
+                    Mixed Race (Non-Hispanic)  |   4450.249   4692.197     0.95   0.343    -4772.993    13673.49
+                     Non-Black / Non-Hispanic  |   8874.283   2155.022     4.12   0.000     4638.251    13110.31
+                                               |
+                            CENSUS_REGION_2010 |  -6.941893   1020.444    -0.01   0.995    -2012.784      1998.9
+                                               |
+                                Marital_Status |
+                                      Married  |   5428.234   2002.036     2.71   0.007     1492.921    9363.548
+                                    Separated  |   9801.144   6121.634     1.60   0.110    -2231.878    21834.17
+                                     Divorced  |  -4350.887   2879.033    -1.51   0.131    -10010.07      1308.3
+                                               |
+                                  Union_member |   5522.715   2488.254     2.22   0.027     631.6645    10413.77
+                              TRAINING_Program |  -1009.796   2073.802    -0.49   0.627    -5086.176    3066.584
+                                         _cons |   5109.241    4192.59     1.22   0.224    -3131.946    13350.43
+----------------------------------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg10) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A1.xml
+dir : seeout
+
+. 
+. //matching
+. //mlogit  HIGHEST_DEGREE_2010 Wages_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 Marital_Status Union_member TRAINING_Program PS1_
+> HARD_WORKER PS2_Amount_of_work PS3_Work_Stand PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Support_rules_trad PS8_Bending_rule
+> s Occupation_Category Industry_Category
+. mlogit  HIGHEST_DEGREE_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010
+
+Iteration 0:   log likelihood = -8399.2315  
+Iteration 1:   log likelihood = -7958.4191  
+Iteration 2:   log likelihood = -7932.6946  
+Iteration 3:   log likelihood = -7932.1141  
+Iteration 4:   log likelihood = -7931.9662  
+Iteration 5:   log likelihood = -7931.9247  
+Iteration 6:   log likelihood = -7931.9145  
+Iteration 7:   log likelihood = -7931.9115  
+Iteration 8:   log likelihood = -7931.9106  
+Iteration 9:   log likelihood = -7931.9104  
+Iteration 10:  log likelihood = -7931.9104  
+Iteration 11:  log likelihood = -7931.9104  
+
+Multinomial logistic regression                 Number of obs     =      5,465
+                                                LR chi2(21)       =     934.64
+                                                Prob > chi2       =     0.0000
+Log likelihood = -7931.9104                     Pseudo R2         =     0.0556
+
+--------------------------------------------------------------------------------------------------
+             HIGHEST_DEGREE_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+---------------------------------+----------------------------------------------------------------
+None                             |
+            parents_income_class |  -.7436783   .0632783   -11.75   0.000    -.8677014   -.6196551
+             RACE_ETHNICITY_1997 |   .0116242   .0377643     0.31   0.758    -.0623925     .085641
+              CENSUS_REGION_2010 |   .0003437   .0508981     0.01   0.995    -.0994148    .1001022
+                           _cons |  -.2552519   .1933246    -1.32   0.187    -.6341612    .1236575
+---------------------------------+----------------------------------------------------------------
+GED                              |
+            parents_income_class |  -.4136549   .0520483    -7.95   0.000    -.5156677   -.3116422
+             RACE_ETHNICITY_1997 |   .0086261   .0351554     0.25   0.806    -.0602772    .0775293
+              CENSUS_REGION_2010 |  -.1211819   .0462361    -2.62   0.009     -.211803   -.0305608
+                           _cons |  -.2584901   .1755423    -1.47   0.141    -.6025467    .0855665
+---------------------------------+----------------------------------------------------------------
+High_school_diploma__Regular_12  |  (base outcome)
+---------------------------------+----------------------------------------------------------------
+Associate_Junior_college__AA_    |
+            parents_income_class |   .1219539   .0585432     2.08   0.037     .0072113    .2366964
+             RACE_ETHNICITY_1997 |   .1347292   .0455552     2.96   0.003     .0454425    .2240158
+              CENSUS_REGION_2010 |   -.021314   .0569296    -0.37   0.708    -.1328939    .0902659
+                           _cons |  -2.427825   .2317544   -10.48   0.000    -2.882056   -1.973595
+---------------------------------+----------------------------------------------------------------
+Bachelor_s_degree__BA__BS_       |
+            parents_income_class |   .5561954   .0402725    13.81   0.000     .4772628    .6351281
+             RACE_ETHNICITY_1997 |   .1847639   .0317387     5.82   0.000     .1225571    .2469706
+              CENSUS_REGION_2010 |  -.0355673   .0382632    -0.93   0.353    -.1105618    .0394272
+                           _cons |  -2.512531   .1647349   -15.25   0.000    -2.835406   -2.189657
+---------------------------------+----------------------------------------------------------------
+Master_s_degree__MA__MS_         |
+            parents_income_class |   .6257077   .0798001     7.84   0.000     .4693024     .782113
+             RACE_ETHNICITY_1997 |   .2399596   .0683677     3.51   0.000     .1059614    .3739577
+              CENSUS_REGION_2010 |  -.1791192   .0743577    -2.41   0.016    -.3248576   -.0333807
+                           _cons |  -4.224405    .341039   -12.39   0.000     -4.89283   -3.555981
+---------------------------------+----------------------------------------------------------------
+PhD                              |
+            parents_income_class |   .5894947   .3793494     1.55   0.120    -.1540165    1.333006
+             RACE_ETHNICITY_1997 |   11.08654   642.1913     0.02   0.986    -1247.585    1269.758
+              CENSUS_REGION_2010 |   .2481206   .3673923     0.68   0.499     -.471955    .9681962
+                           _cons |  -51.57917   2568.765    -0.02   0.984    -5086.267    4983.109
+---------------------------------+----------------------------------------------------------------
+Professional_degree__DDS__JD__MD |
+            parents_income_class |   .8446043   .1566644     5.39   0.000     .5375477    1.151661
+             RACE_ETHNICITY_1997 |   .1671729   .1346651     1.24   0.214    -.0967659    .4311117
+              CENSUS_REGION_2010 |   -.138034   .1465819    -0.94   0.346    -.4253293    .1492613
+                           _cons |  -6.141313   .6857683    -8.96   0.000    -7.485394   -4.797232
+--------------------------------------------------------------------------------------------------
+
+. //kmatch ps Union_member HIGHEST_DEGREE_2010 TRAINING_Program Industry_Category RACE_ETHNICITY_1997  ( Wages_2010 ), nate att
+. //kmatch density, lw(*6 *2) lc(*.5 *1)
+. //kmatch ps Union_member parents_income_class TRAINING_Program Industry_Category RACE_ETHNICITY_1997  ( HIGHEST_DEGREE_2010 ), nate att
+. //kmatch ps Union_member parents_income_class TRAINING_Program Industry_Category RACE_ETHNICITY_1997 PS1_HARD_WORKER PS2_Amount_of_work PS3_Work_Stand
+>  PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Support_rules_trad PS8_Bending_rules  ( HIGHEST_DEGREE_2010 Wages_2010 ), nate a
+> tt
+. kmatch md Union_member Industry_Category RACE_ETHNICITY_1997 R_Sex  ( Wages_2010 ), att vce(boot) over( parents_income_class )
+(parents_income_class=1: computing bandwidth ... done)
+(parents_income_class=2: computing bandwidth ... done)
+(parents_income_class=3: computing bandwidth ... done)
+(parents_income_class=4: computing bandwidth ... done)
+(parents_income_class=5: computing bandwidth ... done)
+
+(running kmatch on estimation sample)
+
+Bootstrap replications (50)
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+.................................................x    50
+
+Multivariate-distance kernel matching           Number of obs     =      3,106
+                                                Replications      =         49
+                                                Kernel            =       epan
+Treatment   : Union_member = 1
+Metric      : mahalanobis
+Covariates  : Industry_Category RACE_ETHNICITY_1997 R_Sex
+Over groups : 1: parents_income_class = 1
+              2: parents_income_class = 2
+              3: parents_income_class = 3
+              4: parents_income_class = 4
+              5: parents_income_class = 5
+
+Matching statistics
+------------------------------------------------------------------------------------------
+           |             Matched             |             Controls            | Bandwidth
+           |       Yes         No      Total |      Used     Unused      Total |          
+-----------+---------------------------------+---------------------------------+----------
+1          |                                 |                                 |          
+   Treated |       133          0        133 |       748        300       1048 |  2.2e-308
+-----------+---------------------------------+---------------------------------+----------
+2          |                                 |                                 |          
+   Treated |        67          0         67 |       390          8        398 |  1.192774
+-----------+---------------------------------+---------------------------------+----------
+3          |                                 |                                 |          
+   Treated |       200          0        200 |      1135         24       1159 |  .8417348
+-----------+---------------------------------+---------------------------------+----------
+4          |                                 |                                 |          
+   Treated |        10          0         10 |        37          8         45 |  1.653528
+-----------+---------------------------------+---------------------------------+----------
+5          |                                 |                                 |          
+   Treated |         4          0          4 |        14         28         42 |  1.090729
+------------------------------------------------------------------------------------------
+
+Treatment-effects estimation
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+  Wages_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+1            |
+         ATT |   4251.713    1988.13     2.14   0.032     355.0503    8148.376
+-------------+----------------------------------------------------------------
+2            |
+         ATT |   5737.918   2727.785     2.10   0.035     391.5573    11084.28
+-------------+----------------------------------------------------------------
+3            |
+         ATT |   10058.21   1497.581     6.72   0.000     7123.003    12993.41
+-------------+----------------------------------------------------------------
+4            |
+         ATT |   21459.06   6074.863     3.53   0.000      9552.55    33365.57
+-------------+----------------------------------------------------------------
+5            |
+         ATT |  -7604.284   15413.07    -0.49   0.622    -37813.35    22604.79
+------------------------------------------------------------------------------
+
+. gen BA= HIGHEST_DEGREE_2010==4
+
+. kmatch md Union_member BA Industry_Category RACE_ETHNICITY_1997 R_Sex  ( Wages_2010 ), att vce(boot) over( parents_income_class )
+(parents_income_class=1: computing bandwidth ... done)
+(parents_income_class=2: computing bandwidth ... done)
+(parents_income_class=3: computing bandwidth ... done)
+(parents_income_class=4: computing bandwidth ... done)
+(parents_income_class=5: computing bandwidth ... done)
+
+(running kmatch on estimation sample)
+
+Bootstrap replications (50)
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..................................................    50
+
+Multivariate-distance kernel matching           Number of obs     =      3,106
+                                                Replications      =         50
+                                                Kernel            =       epan
+Treatment   : Union_member = 1
+Metric      : mahalanobis
+Covariates  : BA Industry_Category RACE_ETHNICITY_1997 R_Sex
+Over groups : 1: parents_income_class = 1
+              2: parents_income_class = 2
+              3: parents_income_class = 3
+              4: parents_income_class = 4
+              5: parents_income_class = 5
+
+Matching statistics
+------------------------------------------------------------------------------------------
+           |             Matched             |             Controls            | Bandwidth
+           |       Yes         No      Total |      Used     Unused      Total |          
+-----------+---------------------------------+---------------------------------+----------
+1          |                                 |                                 |          
+   Treated |       133          0        133 |      1021         27       1048 |  1.195022
+-----------+---------------------------------+---------------------------------+----------
+2          |                                 |                                 |          
+   Treated |        67          0         67 |       365         33        398 |  1.193578
+-----------+---------------------------------+---------------------------------+----------
+3          |                                 |                                 |          
+   Treated |       200          0        200 |      1150          9       1159 |  1.344165
+-----------+---------------------------------+---------------------------------+----------
+4          |                                 |                                 |          
+   Treated |        10          0         10 |        27         18         45 |  1.653793
+-----------+---------------------------------+---------------------------------+----------
+5          |                                 |                                 |          
+   Treated |         4          0          4 |        15         27         42 |  1.647703
+------------------------------------------------------------------------------------------
+
+Treatment-effects estimation
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+  Wages_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+1            |
+         ATT |   6226.112   1789.185     3.48   0.001     2719.374     9732.85
+-------------+----------------------------------------------------------------
+2            |
+         ATT |   6193.861   1864.459     3.32   0.001     2539.588    9848.133
+-------------+----------------------------------------------------------------
+3            |
+         ATT |   9785.151   1405.296     6.96   0.000     7030.821    12539.48
+-------------+----------------------------------------------------------------
+4            |
+         ATT |   24131.17   8047.751     3.00   0.003     8357.871    39904.47
+-------------+----------------------------------------------------------------
+5            |
+         ATT |  -6932.802   13135.31    -0.53   0.598    -32677.53    18811.93
+------------------------------------------------------------------------------
+
+. kmatch ps Union_member BA Industry_Category RACE_ETHNICITY_1997 R_Sex  ( Wages_2010 ), att vce(boot) over( parents_income_class )
+(propensity score has 1 missing values)
+(parents_income_class=1: computing bandwidth ... done)
+(parents_income_class=2: computing bandwidth ... done)
+(parents_income_class=3: computing bandwidth ... done)
+(parents_income_class=4: computing bandwidth ... done)
+(parents_income_class=5: computing bandwidth ... done)
+
+(running kmatch on estimation sample)
+
+Bootstrap replications (50)
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+.x...x.xx..x..x.x......x..xx....x.....x.....x.xxx.    50
+
+Propensity-score kernel matching                Number of obs     =      3,106
+                                                Replications      =         34
+                                                Kernel            =       epan
+Treatment   : Union_member = 1
+Covariates  : BA Industry_Category RACE_ETHNICITY_1997 R_Sex
+PS model    : logit (pr)
+Over groups : 1: parents_income_class = 1
+              2: parents_income_class = 2
+              3: parents_income_class = 3
+              4: parents_income_class = 4
+              5: parents_income_class = 5
+
+Matching statistics
+------------------------------------------------------------------------------------------
+           |             Matched             |             Controls            | Bandwidth
+           |       Yes         No      Total |      Used     Unused      Total |          
+-----------+---------------------------------+---------------------------------+----------
+1          |                                 |                                 |          
+   Treated |       133          0        133 |       834        214       1048 |  .0012323
+-----------+---------------------------------+---------------------------------+----------
+2          |                                 |                                 |          
+   Treated |        67          0         67 |       332         66        398 |  .0037198
+-----------+---------------------------------+---------------------------------+----------
+3          |                                 |                                 |          
+   Treated |       200          0        200 |      1159          0       1159 |  .0528742
+-----------+---------------------------------+---------------------------------+----------
+4          |                                 |                                 |          
+   Treated |        10          0         10 |        16         29         45 |  .0072274
+-----------+---------------------------------+---------------------------------+----------
+5          |                                 |                                 |          
+   Treated |         4          0          4 |        41          1         42 |  .2328974
+------------------------------------------------------------------------------------------
+
+Treatment-effects estimation
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+  Wages_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+1            |
+         ATT |    5126.17   2269.264     2.26   0.024      678.494    9573.847
+-------------+----------------------------------------------------------------
+2            |
+         ATT |   5865.106   2232.784     2.63   0.009      1488.93    10241.28
+-------------+----------------------------------------------------------------
+3            |
+         ATT |   9646.597   1352.358     7.13   0.000     6996.024    12297.17
+-------------+----------------------------------------------------------------
+4            |
+         ATT |   22659.95   8243.289     2.75   0.006     6503.405     38816.5
+-------------+----------------------------------------------------------------
+5            |
+         ATT |   -12139.4   9579.024    -1.27   0.205    -30913.94     6635.14
+------------------------------------------------------------------------------
+
+. kmatch density, lw(*6 *2) lc(*.5 *1)
+(refitting the model using the generate() option)
+(parents_income_class=1: applying 0-1 boundary correction to density estimation of __000005)
+(parents_income_class=1: bandwidth for __000005 = .02247884)
+(parents_income_class=2: applying 0-1 boundary correction to density estimation of __000005)
+(parents_income_class=2: bandwidth for __000005 = .02349016)
+(parents_income_class=3: applying 0-1 boundary correction to density estimation of __000005)
+(parents_income_class=3: bandwidth for __000005 = .01915685)
+(parents_income_class=4: applying 0-1 boundary correction to density estimation of __000005)
+(parents_income_class=4: bandwidth for __000005 = .10303144)
+(parents_income_class=5: __000005 has missing values)
+(parents_income_class=5: applying 0-1 boundary correction to density estimation of __000005)
+(parents_income_class=5: bandwidth for __000005 = .03598126)
+
+. kmatch cumul, lw(*6 *2) lc(*.5 *1)
+(refitting the model using the generate() option)
+(parents_income_class=5: __000005 has missing values)
+
+. kmatch ps BA Industry_Category RACE_ETHNICITY_1997 R_Sex parents_income_class URBAN_RURAL_2010 GENERAL_HEALTH ( Wages_2010 ), att vce(boot)over( paren
+> ts_income_class )
+(parents_income_class=1: computing bandwidth ... done)
+(parents_income_class=2: computing bandwidth ... done)
+(parents_income_class=3: computing bandwidth ... done)
+(parents_income_class=4: computing bandwidth ... done)
+(parents_income_class=5: computing bandwidth ... done)
+
+(running kmatch on estimation sample)
+
+Bootstrap replications (50)
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..................................................    50
+
+Propensity-score kernel matching                Number of obs     =      3,664
+                                                Replications      =         50
+                                                Kernel            =       epan
+Treatment   : BA = 1
+Covariates  : Industry_Category RACE_ETHNICITY_1997 R_Sex parents_income_class URBAN_RURAL_2010 GENERAL_HEALTH
+PS model    : logit (pr)
+Over groups : 1: parents_income_class = 1
+              2: parents_income_class = 2
+              3: parents_income_class = 3
+              4: parents_income_class = 4
+              5: parents_income_class = 5
+
+Matching statistics
+------------------------------------------------------------------------------------------
+           |             Matched             |             Controls            | Bandwidth
+           |       Yes         No      Total |      Used     Unused      Total |          
+-----------+---------------------------------+---------------------------------+----------
+1          |                                 |                                 |          
+   Treated |       168          1        169 |      1152         58       1210 |  .0037087
+-----------+---------------------------------+---------------------------------+----------
+2          |                                 |                                 |          
+   Treated |       127          0        127 |       354         61        415 |  .0048024
+-----------+---------------------------------+---------------------------------+----------
+3          |                                 |                                 |          
+   Treated |       564          1        565 |       956         94       1050 |  .0012682
+-----------+---------------------------------+---------------------------------+----------
+4          |                                 |                                 |          
+   Treated |        28          1         29 |        34          4         38 |  .0142468
+-----------+---------------------------------+---------------------------------+----------
+5          |                                 |                                 |          
+   Treated |        37          1         38 |        20          3         23 |   .042338
+------------------------------------------------------------------------------------------
+
+Treatment-effects estimation
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+  Wages_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+1            |
+         ATT |   9410.583   1645.585     5.72   0.000     6185.296    12635.87
+-------------+----------------------------------------------------------------
+2            |
+         ATT |   9845.127   1877.601     5.24   0.000     6165.097    13525.16
+-------------+----------------------------------------------------------------
+3            |
+         ATT |   3749.018     1108.3     3.38   0.001     1576.791    5921.246
+-------------+----------------------------------------------------------------
+4            |
+         ATT |  -305.2039   8536.914    -0.04   0.971    -17037.25    16426.84
+-------------+----------------------------------------------------------------
+5            |
+         ATT |   16892.69   8187.454     2.06   0.039     845.5741     32939.8
+------------------------------------------------------------------------------
+
+. kmatch ps BA Industry_Category RACE_ETHNICITY_1997 AGE_2010 parents_income_class URBAN_RURAL_2010 GENERAL_HEALTH PS1_HARD_WORKER PS2_Amount_of_work PS
+> 3_Work_Stand PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Support_rules_trad PS8_Bending_rules ( Wages_2010  ), att vce(boot)o
+> ver( SEX_1997 )
+(SEX_1997=1: computing bandwidth ... done)
+(SEX_1997=2: computing bandwidth ... done)
+
+(running kmatch on estimation sample)
+
+Bootstrap replications (50)
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..................................................    50
+
+Propensity-score kernel matching                Number of obs     =      3,589
+                                                Replications      =         50
+                                                Kernel            =       epan
+Treatment   : BA = 1
+Covariates  : Industry_Category RACE_ETHNICITY_1997 AGE_2010 parents_income_class URBAN_RURAL_2010 GENERAL_HEALTH PS1_HARD_WORKER PS2_Amount_of_work ...
+PS model    : logit (pr)
+Over groups : 1: SEX_1997 = 1
+              2: SEX_1997 = 2
+
+Matching statistics
+------------------------------------------------------------------------------------------
+           |             Matched             |             Controls            | Bandwidth
+           |       Yes         No      Total |      Used     Unused      Total |          
+-----------+---------------------------------+---------------------------------+----------
+1          |                                 |                                 |          
+   Treated |       374         20        394 |      1271        191       1462 |  .0018905
+-----------+---------------------------------+---------------------------------+----------
+2          |                                 |                                 |          
+   Treated |       490         28        518 |       984        231       1215 |  .0017936
+------------------------------------------------------------------------------------------
+
+Treatment-effects estimation
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+  Wages_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+1            |
+         ATT |   4844.889   1671.054     2.90   0.004     1569.684    8120.095
+-------------+----------------------------------------------------------------
+2            |
+         ATT |   6234.751   1324.341     4.71   0.000      3639.09    8830.412
+------------------------------------------------------------------------------
+
+. kmatch density, lw(*6 *2) lc(*.5 *1)
+(refitting the model using the generate() option)
+(SEX_1997=1: applying 0-1 boundary correction to density estimation of __000005)
+(SEX_1997=1: bandwidth for __000005 = .06482205)
+(SEX_1997=2: applying 0-1 boundary correction to density estimation of __000005)
+(SEX_1997=2: bandwidth for __000005 = .0799464)
+
+. kmatch cumul, lw(*6 *2) lc(*.5 *1)
+(refitting the model using the generate() option)
+
+. // dumbass match on education right now its people who have bachelors and dont have bachelors
+. //kmatch md BA Industry_Category RACE_ETHNICITY_1997 AGE_2010 parents_income_class URBAN_RURAL_2010 GENERAL_HEALTH PS1_HARD_WORKER PS3_Work_Stand PS4_
+> Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Support_rules_trad PS8_Bending_rules ( Wages_2010 ), att nn
+. //kmatch md  Union_member  Marital_Status HIGHEST_DEGREE_2010 Industry_Category RACE_ETHNICITY_1997  TRAINING_Program  Job_satisfaction AGE_2010 paren
+> ts_income_class URBAN_RURAL_2010 GENERAL_HEALTH PS1_HARD_WORKER PS3_Work_Stand PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Su
+> pport_rules_trad PS8_Bending_rules ( Wages_2010 ), att nn
+. //teffects nnmatch ( Wages_2010 Marital_Status HIGHEST_DEGREE_2010 Industry_Category RACE_ETHNICITY_1997  TRAINING_Program  Job_satisfaction AGE_2010 
+> parents_income_class URBAN_RURAL_2010 GENERAL_HEALTH PS1_HARD_WORKER PS3_Work_Stand PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules P
+> S7_Support_rules_trad PS8_Bending_rules) ( Union_member ), atet
+. logit  Union_member HIGHEST_DEGREE_2010 Wages_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 Marital_Status TRAINING_Program PS1_HAR
+> D_WORKER PS2_Amount_of_work PS3_Work_Stand PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Support_rules_trad PS8_Bending_rules O
+> ccupation_Category Industry_Category
+
+Iteration 0:   log likelihood = -214.65587  
+Iteration 1:   log likelihood = -196.64637  
+Iteration 2:   log likelihood = -195.79628  
+Iteration 3:   log likelihood = -195.79281  
+Iteration 4:   log likelihood = -195.79281  
+
+Logistic regression                             Number of obs     =        434
+                                                LR chi2(17)       =      37.73
+                                                Prob > chi2       =     0.0027
+Log likelihood = -195.79281                     Pseudo R2         =     0.0879
+
+-------------------------------------------------------------------------------------------
+             Union_member |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+      HIGHEST_DEGREE_2010 |   .1419164   .1208752     1.17   0.240    -.0949948    .3788275
+               Wages_2010 |    .000026   7.41e-06     3.50   0.000     .0000114    .0000405
+     parents_income_class |   .1298209   .1468263     0.88   0.377    -.1579534    .4175952
+      RACE_ETHNICITY_1997 |   -.103211   .1139768    -0.91   0.365    -.3266014    .1201793
+       CENSUS_REGION_2010 |  -.1117572   .1337679    -0.84   0.403    -.3739375    .1504231
+           Marital_Status |   .0383269   .1665428     0.23   0.818    -.2880909    .3647447
+         TRAINING_Program |  -.0261326   .3005487    -0.09   0.931    -.6151972    .5629321
+          PS1_HARD_WORKER |  -.0646956   .1289221    -0.50   0.616    -.3173782    .1879871
+       PS2_Amount_of_work |     .10187   .1077169     0.95   0.344    -.1092513    .3129912
+           PS3_Work_Stand |  -.1252159   .1448302    -0.86   0.387    -.4090779    .1586462
+       PS4_Effort_at_work |  -.1877066    .138952    -1.35   0.177    -.4600475    .0846342
+      PS5_Following_rules |   .0714974   .0828261     0.86   0.388    -.0908387    .2338336
+PS6_Breaking_school_rules |  -.0279775   .0729902    -0.38   0.701    -.1710358    .1150807
+   PS7_Support_rules_trad |  -.1080565   .0995503    -1.09   0.278    -.3031715    .0870585
+        PS8_Bending_rules |  -.0385009   .0846611    -0.45   0.649    -.2044337    .1274318
+      Occupation_Category |    .042984    .016561     2.60   0.009      .010525     .075443
+        Industry_Category |   .0785268   .0376551     2.09   0.037     .0047242    .1523294
+                    _cons |   -1.81376   1.517799    -1.19   0.232    -4.788593    1.161072
+-------------------------------------------------------------------------------------------
+
+. predict p2score
+(option pr assumed; Pr(Union_member))
+(8468 missing values generated)
+
+. psmatch2 Union_member , outcome ( Wages_2010 ) pscore (p2score) neighbor (1) common noreplacement
+----------------------------------------------------------------------------------------
+        Variable     Sample |    Treated     Controls   Difference         S.E.   T-stat
+----------------------------+-----------------------------------------------------------
+      Wages_2010  Unmatched | 40926.5765   32878.6905   8047.88593   2320.58789     3.47
+                        ATT | 40926.5765   38059.8353   2866.74118   3110.91063     0.92
+----------------------------+-----------------------------------------------------------
+Note: S.E. does not take into account that the propensity score is estimated.
+
+           | psmatch2:
+ psmatch2: |   Common
+ Treatment |  support
+assignment | On suppor |     Total
+-----------+-----------+----------
+ Untreated |       349 |       349 
+   Treated |        85 |        85 
+-----------+-----------+----------
+     Total |       434 |       434 
+
+
+. twoway (scatter Wages_2010 HIGHEST_DEGREE_2010 if _nn ==1, mcolor(blue) msymbol(o) ) (lfit Wages_2010 HIGHEST_DEGREE_2010  if _nn ==1) (scatter Wages_
+> 2010 HIGHEST_DEGREE_2010  if _nn ==0, mcolor(blue) msymbol(o) ) (lfit Wages_2010 HIGHEST_DEGREE_2010  if _nn ==0)
+
+. //reg Wages_2010 HIGHEST_DEGREE_2010#HIGHEST_DEGREE_2010 parents_income_class# parents_income_class Marital_Status# Marital_Status RACE_ETHNICITY_1997
+> #RACE_ETHNICITY_1997 SEX_1997 URBAN_RURAL_2010 SEX_1997 CENSUS_REGION_2010  Union_member TRAINING_Program Occupation_Category Industry_Category[pweigh
+> t = SAMPLING_WEIGHT_CC_2010], robust
+. //outreg2 using "$direc\8321498_Trostin_A1.xml", append ctitle(reg11) label  //appendetement to output
+. logit  R_Sex HIGHEST_DEGREE_2010 Wages_2010 parents_income_class RACE_ETHNICITY_1997 CENSUS_REGION_2010 Marital_Status TRAINING_Program PS1_HARD_WORKE
+> R PS2_Amount_of_work PS3_Work_Stand PS4_Effort_at_work PS5_Following_rules PS6_Breaking_school_rules PS7_Support_rules_trad PS8_Bending_rules Occupati
+> on_Category Industry_Category
+
+Iteration 0:   log likelihood = -357.64844  
+Iteration 1:   log likelihood = -282.39994  
+Iteration 2:   log likelihood = -282.18305  
+Iteration 3:   log likelihood = -282.18291  
+Iteration 4:   log likelihood = -282.18291  
+
+Logistic regression                             Number of obs     =        516
+                                                LR chi2(17)       =     150.93
+                                                Prob > chi2       =     0.0000
+Log likelihood = -282.18291                     Pseudo R2         =     0.2110
+
+-------------------------------------------------------------------------------------------
+                    R_Sex |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+      HIGHEST_DEGREE_2010 |  -.0303052   .0976192    -0.31   0.756    -.2216354     .161025
+               Wages_2010 |  -.0000328   6.25e-06    -5.24   0.000     -.000045   -.0000205
+     parents_income_class |   .0146398   .1211617     0.12   0.904    -.2228328    .2521124
+      RACE_ETHNICITY_1997 |   .0613947   .0928457     0.66   0.508    -.1205795    .2433689
+       CENSUS_REGION_2010 |  -.1212137   .1110475    -1.09   0.275    -.3388627    .0964353
+           Marital_Status |  -.0120277   .1229787    -0.10   0.922    -.2530615    .2290062
+         TRAINING_Program |   .0448369   .2360494     0.19   0.849    -.4178115    .5074852
+          PS1_HARD_WORKER |   .1499828   .0982367     1.53   0.127    -.0425577    .3425233
+       PS2_Amount_of_work |  -.1890734   .0908518    -2.08   0.037    -.3671396   -.0110071
+           PS3_Work_Stand |   .0157873     .12358     0.13   0.898     -.226425    .2579997
+       PS4_Effort_at_work |  -.0414426    .114056    -0.36   0.716    -.2649882     .182103
+      PS5_Following_rules |   .1789731   .0654522     2.73   0.006     .0506892     .307257
+PS6_Breaking_school_rules |  -.3660791   .0574743    -6.37   0.000    -.4787266   -.2534315
+   PS7_Support_rules_trad |   .1352381   .0819427     1.65   0.099    -.0253665    .2958428
+        PS8_Bending_rules |   .1236628   .0670114     1.85   0.065    -.0076771    .2550027
+      Occupation_Category |  -.0539646   .0127926    -4.22   0.000    -.0790376   -.0288917
+        Industry_Category |   .1108276   .0289915     3.82   0.000     .0540053      .16765
+                    _cons |   .4221911   1.197292     0.35   0.724    -1.924459    2.768841
+-------------------------------------------------------------------------------------------
+
+. predict p3score
+(option pr assumed; Pr(R_Sex))
+(8468 missing values generated)
+
+. psmatch2 R_Sex , outcome ( Wages_2010 ) pscore (p3score) neighbor (1) common noreplacement
+----------------------------------------------------------------------------------------
+        Variable     Sample |    Treated     Controls   Difference         S.E.   T-stat
+----------------------------+-----------------------------------------------------------
+      Wages_2010  Unmatched |   30061.05   36985.7188  -6924.66875   1692.18593    -4.09
+                        ATT |  30373.716    36323.376     -5949.66   1709.71897    -3.48
+----------------------------+-----------------------------------------------------------
+Note: S.E. does not take into account that the propensity score is estimated.
+
+ psmatch2: |   psmatch2: Common
+ Treatment |        support
+assignment | Off suppo  On suppor |     Total
+-----------+----------------------+----------
+ Untreated |         0        256 |       256 
+   Treated |        10        250 |       260 
+-----------+----------------------+----------
+     Total |        10        506 |       516 
+
+
+. twoway (scatter Wages_2010 HIGHEST_DEGREE_2010 if _nn ==1, mcolor(blue) msymbol(o) ) (lfit Wages_2010 HIGHEST_DEGREE_2010  if _nn ==1) (scatter Wages_
+> 2010 HIGHEST_DEGREE_2010  if _nn ==0, mcolor(red) msymbol(o) ) (lfit Wages_2010 HIGHEST_DEGREE_2010  if _nn ==0)
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 if _support ==1 &_weight ==1, robust
+
+Linear regression                               Number of obs     =        500
+                                                F(1, 498)         =      89.80
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1501
+                                                Root MSE          =      17835
+
+-------------------------------------------------------------------------------------
+                    |               Robust
+         Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+HIGHEST_DEGREE_2010 |   5640.082   595.1757     9.48   0.000     4470.717    6809.447
+              _cons |   17838.32    1761.44    10.13   0.000     14377.55    21299.09
+-------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A2.xml", replace ctitle(reg1) label // output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A2.xml
+dir : seeout
+
+. reg Wages_2010 HIGHEST_DEGREE_2010 Urban_2010 TRAINING_Program RACE_ETHNICITY_1997 Union_member parents_income_class if _support ==1 &_weight ==1, rob
+> ust
+
+Linear regression                               Number of obs     =        419
+                                                F(6, 412)         =      16.76
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2063
+                                                Root MSE          =      17223
+
+--------------------------------------------------------------------------------------
+                     |               Robust
+          Wages_2010 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+---------------------+----------------------------------------------------------------
+ HIGHEST_DEGREE_2010 |   4818.905   665.1735     7.24   0.000     3511.348    6126.462
+          Urban_2010 |   855.4928   2004.591     0.43   0.670     -3085.01    4795.995
+    TRAINING_Program |   941.1501   1961.633     0.48   0.632    -2914.908    4797.208
+ RACE_ETHNICITY_1997 |   2171.567   670.3466     3.24   0.001      853.841    3489.293
+        Union_member |    4822.84   2245.568     2.15   0.032     408.6393     9237.04
+parents_income_class |   1678.894   919.8798     1.83   0.069    -129.3493    3487.137
+               _cons |    8738.93   3282.894     2.66   0.008     2285.619    15192.24
+--------------------------------------------------------------------------------------
+
+. outreg2 using "$direc\8321498_Trostin_A2.xml", append ctitle(reg2) label  //appendetement to output
+D:\University\ECO 4186\Trostin_Yevg_NLSY97_replication_code__dataset_and_logfile\8321498_Trostin_A2.xml
+dir : seeout
+
+. kmatch md R_Sex Union_member Industry_Category RACE_ETHNICITY_1997 R_Sex  ( Wages_2010 ), att vce(boot) over( HIGHEST_DEGREE_2010 )
+(HIGHEST_DEGREE_2010=0: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=1: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=2: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=3: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=4: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=5: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=6: computing bandwidth ... done)
+(HIGHEST_DEGREE_2010=7: computing bandwidth ... done)
+
+(running kmatch on estimation sample)
+
+Bootstrap replications (50)
+----+--- 1 ---+--- 2 ---+--- 3 ---+--- 4 ---+--- 5 
+..x.xxx.x..xx.x....x....x.x...x....x.x.xx.x..x....    50
+
+Multivariate-distance kernel matching           Number of obs     =      4,112
+                                                Replications      =         32
+                                                Kernel            =       epan
+Treatment   : R_Sex = 1
+Metric      : mahalanobis
+Covariates  : Union_member Industry_Category RACE_ETHNICITY_1997 R_Sex
+Over groups : 0: HIGHEST_DEGREE_2010 = 0
+              1: HIGHEST_DEGREE_2010 = 1
+              2: HIGHEST_DEGREE_2010 = 2
+              3: HIGHEST_DEGREE_2010 = 3
+              4: HIGHEST_DEGREE_2010 = 4
+              5: HIGHEST_DEGREE_2010 = 5
+              6: HIGHEST_DEGREE_2010 = 6
+              7: HIGHEST_DEGREE_2010 = 7
+
+Matching statistics
+------------------------------------------------------------------------------------------
+           |             Matched             |             Controls            | Bandwidth
+           |       Yes         No      Total |      Used     Unused      Total |          
+-----------+---------------------------------+---------------------------------+----------
+0          |                                 |                                 |          
+   Treated |        94          0         94 |       169          0        169 |  3.165834
+-----------+---------------------------------+---------------------------------+----------
+1          |                                 |                                 |          
+   Treated |       161          0        161 |       224          0        224 |  3.058388
+-----------+---------------------------------+---------------------------------+----------
+2          |                                 |                                 |          
+   Treated |       840          0        840 |       987          0        987 |   3.04202
+-----------+---------------------------------+---------------------------------+----------
+3          |                                 |                                 |          
+   Treated |       182          0        182 |       141          0        141 |  3.110198
+-----------+---------------------------------+---------------------------------+----------
+4          |                                 |                                 |          
+   Treated |       603          0        603 |       449          0        449 |  3.065237
+-----------+---------------------------------+---------------------------------+----------
+5          |                                 |                                 |          
+   Treated |       139          0        139 |        84          0         84 |  3.148261
+-----------+---------------------------------+---------------------------------+----------
+6          |                                 |                                 |          
+   Treated |         4          0          4 |         1          0          1 |  4.242641
+-----------+---------------------------------+---------------------------------+----------
+7          |                                 |                                 |          
+   Treated |        20          0         20 |        13          1         14 |  3.597534
+------------------------------------------------------------------------------------------
+
+Treatment-effects estimation
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+  Wages_2010 |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+0            |
+         ATT |  -10039.15   1478.663    -6.79   0.000    -12937.28   -7141.026
+-------------+----------------------------------------------------------------
+1            |
+         ATT |   -4621.72   1495.131    -3.09   0.002    -7552.122   -1691.318
+-------------+----------------------------------------------------------------
+2            |
+         ATT |  -7345.077   623.7002   -11.78   0.000    -8567.507   -6122.647
+-------------+----------------------------------------------------------------
+3            |
+         ATT |  -6042.192   1610.619    -3.75   0.000    -9198.948   -2885.436
+-------------+----------------------------------------------------------------
+4            |
+         ATT |  -4524.742   1097.701    -4.12   0.000    -6676.197   -2373.287
+-------------+----------------------------------------------------------------
+5            |
+         ATT |  -1890.868   2770.767    -0.68   0.495    -7321.472    3539.736
+-------------+----------------------------------------------------------------
+6            |
+         ATT |      20092   9586.922     2.10   0.036     1301.978    38882.02
+-------------+----------------------------------------------------------------
+7            |
+         ATT |    9962.28   6861.183     1.45   0.147    -3485.391    23409.95
+------------------------------------------------------------------------------
+
+. twoway (scatter Wages_2010 HIGHEST_DEGREE_2010 if RACE_ETHNICITY_1997 ==1, mcolor(blue) msymbol(.) ) (lfit Wages_2010 HIGHEST_DEGREE_2010 if RACE_ETHN
+> ICITY_1997  ==1) (scatter Wages_2010 HIGHEST_DEGREE_2010 if RACE_ETHNICITY_1997 ==2, mcolor(red) msymbol(.)) (lfit Wages_2010 HIGHEST_DEGREE_2010 if R
+> ACE_ETHNICITY_1997==2) (scatter Wages_2010 HIGHEST_DEGREE_2010 if RACE_ETHNICITY_1997 ==3, mcolor(yellow) msymbol(.) ) (lfit Wages_2010 HIGHEST_DEGREE
+> _2010 if RACE_ETHNICITY_1997  ==3) (scatter Wages_2010 HIGHEST_DEGREE_2010 if RACE_ETHNICITY_1997 ==4, mcolor(navy%30) msymbol(i)) (lfit Wages_2010 HI
+> GHEST_DEGREE_2010 if RACE_ETHNICITY_1997 ==4)
+
+. 
+. 
+end of do-file
+
+. exit, clear
