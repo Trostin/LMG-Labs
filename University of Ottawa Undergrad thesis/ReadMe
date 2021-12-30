@@ -1,0 +1,5 @@
+This research project engaged in collecting datasets and implementing a valid model to reach a causal inference. 
+
+In particular using National Longitudinal Study of Youth from 1997 (NLSY97) and onwards. 
+I've ran a stational matching program which finds individuals who are extremely alike, think of it as statistical twins.
+This model observers that regardless of gender or race achieving higher education levels is associated with higher wages.
